@@ -1,0 +1,3 @@
+1. add assets and project settings
+2. commit -m "message goes here"
+3. push
