@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 442389435550162187}
   m_Layer: 8
   m_Name: collider
-  m_TagString: Untagged
+  m_TagString: light
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

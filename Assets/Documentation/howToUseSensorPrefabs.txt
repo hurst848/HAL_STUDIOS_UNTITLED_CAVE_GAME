@@ -1,0 +1,56 @@
+/// SENSOR AND DETECTOR DOCUMENTATION ///
+
+// AREA LIGHT SOURCE //
+Description:
+	- Used when an object needs to emit a spherical ball of light
+	- E.x. lantern, campfire
+
+How To Use:
+	- Attach as child to gameObject
+	- Set values in the script:
+		- Range, how far the light goes (float > 0)
+	- The monster can now detect this light source
+
+// SPOTLIGHT SOURCE //
+Description:
+	- Used when an object needs a directional light
+	- E.x. torch, light fixtures
+
+How To Use:
+	- Attach as child to gameObject
+	- Set values in the script:
+		- Range, how far the light goes (float > 0)
+		- Spot Angle, the angle of the light from the 
+		  source (0 < float < 180)
+	- The monster can now detect this light source
+
+// SOUND SOURCE //
+Description:
+	- Used to emit sounds
+	- Gives the monster the ability to listen
+
+How To Use:
+	- Attach as child to gameObject
+	- Set Values in the Audio Source:
+		- Volume, monster uses this to judge the
+		  the importance of a noise and is the
+		  relative loudness of the sound
+		  (0 < float <= 1)
+	- Set Values in the script:
+		- Sound, the sound to be played
+		  (any valid audio file)
+		- Maximum Listening Distance, the farthest
+		  away the sound will be heard and detected
+		  (0 < float)
+		- Clip Fade, how long the monster can hear the
+		  sound after the clip finishes, to simmulate 
+		  the travel of sound (0 < float)
+	- In code, trigger the sound with the triggerSound()
+	  method
+	- The monster can now detect this sound source 
+
+// MISC //
+Description:
+	- Prefabs such as AudioDetector and LightDetector are
+	  not documented as they require no alteration other
+	  than their implementation into the monsters 

@@ -21,10 +21,11 @@ public class spotLightEmmision : MonoBehaviour
         _light.spotAngle = spotAngle;
 
         calcualteRadius();
+
         colliders.transform.position = new Vector3(
-            transform.localPosition.x,
-            transform.localPosition.y,
-            transform.localPosition.z + range);   
+            transform.position.x,
+            transform.position.y,
+            transform.position.z + range);   
     }
 
     public void switchOn()  { lightOn = true;  }
@@ -32,6 +33,6 @@ public class spotLightEmmision : MonoBehaviour
 
     private void calcualteRadius()
     { 
-        _endCollider.radius = (Mathf.Atan(Mathf.Deg2Rad * _light.spotAngle) * range)/1.75f;
+        _endCollider.radius = (Mathf.Tan(Mathf.Deg2Rad * (_light.spotAngle / 2f)) * range);
     }
 }
