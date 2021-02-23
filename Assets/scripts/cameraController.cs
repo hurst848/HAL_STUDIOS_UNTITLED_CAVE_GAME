@@ -6,11 +6,13 @@ public class cameraController : MonoBehaviour
 {
 
     public GameObject playerCamera;
+    public GameObject Ground;
 
     [SerializeField]
-    private float walkSpeed, runSpeed, jumpForce, mouseSensitivity, playerGravity, playerHeight;
+    private float walkSpeed, runSpeed, jumpForce, mouseSensitivity, playerGravity, playerHeight, crouchHeight, standHeight;
 
     private Rigidbody _rigidbody;
+    private CapsuleCollider _collider;
 
     // private movement varibles
     private bool canMove = true;
@@ -20,13 +22,15 @@ public class cameraController : MonoBehaviour
     private bool isSprinting = false;
     private bool isCrouching = false;
 
-
+      
 
 
     void Start()
     {
+        
         _rigidbody = GetComponent<Rigidbody>();
-       
+        _collider = GetComponent<CapsuleCollider>();
+
     }
 
     void Update()
@@ -35,39 +39,26 @@ public class cameraController : MonoBehaviour
         if (canSprint)
         {
             // Check if shift is being held
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift))
             {
                 isSprinting = true;
-                Debug.Log("holding sprint");
-
-                if(Input.GetKeyUp(KeyCode.LeftShift))
-                {
-                    isSprinting = false;
-                    Debug.Log("let got of sprint");
-                }
+                //Debug.Log("holding sprint");
             }
             else
             {
                 isSprinting = false;
             }
 
-        }
+        }       
 
         // Check if crouch is available
         if (canCrouch)
         {
             // Check if control is being held
-            if (Input.GetKeyDown(KeyCode.LeftControl))
+            if (Input.GetKey(KeyCode.LeftControl))
             {
                 isCrouching = true;
-                Debug.Log("holding crouch");
-
-                if (Input.GetKeyUp(KeyCode.LeftControl))
-                {
-                    Debug.Log("let got of crouch");
-                    isCrouching = false;
-                    
-                }
+                //Debug.Log("holding crouch");
             }
             else
             {
@@ -75,7 +66,36 @@ public class cameraController : MonoBehaviour
             }
 
         }
-          
+
+        if(isCrouching)
+        {
+            //set height
+            playerHeight = crouchHeight;
+            _collider.height = playerHeight;
+            //Debug.Log(playerHeight);
+            //Debug.Log("standing");
+        }
+        else
+        {
+            playerHeight = standHeight;
+            _collider.height = playerHeight;
+            //Debug.Log(playerHeight);
+            //Debug.Log("standing");
+        }
+        
+
+        // Check if crouch is available
+        if (canJump)
+        {
+            // Check if control is being held
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _rigidbody.AddForce(0, jumpForce, 0, ForceMode.Force);
+                Debug.Log("jumping");
+            }
+
+        }
+
 
         // Get mouse Input from player
         float horizontalAxis = Input.GetAxis("Mouse X") * mouseSensitivity;
@@ -84,9 +104,10 @@ public class cameraController : MonoBehaviour
         // Get "wasd" Input from player
         float dirX = Input.GetAxis("Horizontal");
         float dirZ = Input.GetAxis("Vertical");
+        float dirY = playerGravity;
 
         // Turn movement into vector
-        Vector3 plyrDir = new Vector3(dirX, -playerGravity, dirZ);
+        Vector3 plyrDir = new Vector3(dirX, -dirY, dirZ);
 
         // Rotate the player
         transform.Rotate(0, horizontalAxis, 0);
@@ -102,8 +123,31 @@ public class cameraController : MonoBehaviour
             plyrDir *= walkSpeed;
         }
 
+        if(isCrouching)
+        {
+
+        }
+
         // Move the player       
         _rigidbody.velocity = transform.TransformDirection(plyrDir);
         
+    }
+
+    void OnCollisionEnter(Collision onFloor)
+    {
+        if (onFloor.gameObject.name == "Ground")
+        {
+            canJump = true;
+            Debug.Log("on the ground");
+        }
+    }
+
+    void OnCollisionExit(Collision offFloor)
+    {
+        if (offFloor.gameObject.name == "Ground")
+        {
+            canJump = false;
+            Debug.Log("off the ground");
+        }
     }
 }
