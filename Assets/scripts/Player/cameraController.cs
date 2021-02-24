@@ -6,7 +6,6 @@ public class cameraController : MonoBehaviour
 {
 
     public GameObject playerCamera;
-    public GameObject Ground;
 
     [SerializeField]
     private float walkSpeed, runSpeed, jumpForce, mouseSensitivity, playerGravity, playerHeight, crouchHeight, standHeight;
@@ -91,7 +90,7 @@ public class cameraController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 _rigidbody.AddForce(0, jumpForce, 0, ForceMode.Force);
-                Debug.Log("jumping");
+                //Debug.Log("jumping");
             }
 
         }
@@ -138,7 +137,7 @@ public class cameraController : MonoBehaviour
         if (onFloor.gameObject.name == "Ground")
         {
             canJump = true;
-            Debug.Log("on the ground");
+            //Debug.Log("on the ground");
         }
     }
 
@@ -147,7 +146,7 @@ public class cameraController : MonoBehaviour
         if (offFloor.gameObject.name == "Ground")
         {
             canJump = false;
-            Debug.Log("off the ground");
+            //Debug.Log("off the ground");
         }
     }
 }
