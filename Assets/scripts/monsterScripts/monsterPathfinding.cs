@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class monsterPathfinding : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public roomMap currentRoom;
+
+    private Vector2Int start;
+    private Vector2Int end;
+
+    private List<Vector2Int> path;
+
+
+    
 }

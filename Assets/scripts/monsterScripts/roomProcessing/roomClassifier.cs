@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.IO;
 public class roomClassifier : MonoBehaviour
 {
     /*  TODO:
@@ -12,11 +12,11 @@ public class roomClassifier : MonoBehaviour
 
 
 
-
-
+    public string roomID;
+    public GameObject room;
     public GameObject scanner;
 
-    public float scannerResolution;
+    public int scannerResolution;
     public Vector3 centre;
     public Vector3 size;
 
@@ -33,6 +33,7 @@ public class roomClassifier : MonoBehaviour
     private float soundHeight = 1.75f;
 
     private scanColliosionCheck scanChecker;
+    private Vector3 _startLoc = new Vector3();
 
     private List<Vector3> boundsLocations = new List<Vector3>();
     // Start is called before the first frame update
@@ -40,7 +41,7 @@ public class roomClassifier : MonoBehaviour
     {
         // set the scanner resolution
         // RESOLUTION MUST BE THE SAME FOR ALL USES 
-        scanner.transform.localScale = new Vector3(scannerResolution, scannerResolution, scannerResolution);
+        scanner.transform.localScale = new Vector3(1.0f / scannerResolution, 1.0f / scannerResolution, 1.0f / scannerResolution);
 
         // GENERATE THE BOUNDS 
         boundsLocations.Add(centre + new Vector3(size.x / 2, size.y / 2, -size.z / 2));
@@ -52,7 +53,11 @@ public class roomClassifier : MonoBehaviour
         boundsLocations.Add(centre + new Vector3(size.x / 2, size.y / 2, size.z / 2));
         boundsLocations.Add(centre + new Vector3(size.x / 2, -size.y / 2, size.z / 2));
 
-        scanner.transform.position = new Vector3(boundsLocations[0].x - scannerResolution/2, boundsLocations[1].y + scannerResolution / 2, boundsLocations[0].z + scannerResolution / 2);
+        scanner.transform.position = new Vector3(
+            boundsLocations[0].x - (1.0f / scannerResolution) / 2, 
+            boundsLocations[1].y + (1.0f / scannerResolution) / 2, 
+            boundsLocations[0].z + (1.0f / scannerResolution) / 2);
+        _startLoc = scanner.transform.position;
         // set the scanner in the start location
 
         // get the collider of the scanner 
@@ -81,6 +86,7 @@ public class roomClassifier : MonoBehaviour
         {
             runScan = false;
             running = true;
+            scanRoom();
             // execute scan
         }
       
@@ -88,19 +94,23 @@ public class roomClassifier : MonoBehaviour
 
     private void scanRoom()
     {
-        Vector2Int relSize = new Vector2Int((int)(size.z / scannerResolution), (int)(size.x / scannerResolution));
+        Vector2Int relSize = new Vector2Int((int)(size.z * scannerResolution), (int)(size.x * scannerResolution));
         mappedDataSight = new roomMap(relSize);
         mappedDataTouch = new roomMap(relSize);
         mappedDataSound = new roomMap(relSize);
-        for (int i = 0; i < size.z / scannerResolution; i++)
+        for (int i = 0; i < relSize.x; i++)
         {
-            for (int j = 0; j < size.x / scannerResolution; j++)
+
+            for (int j = 0; j < relSize.y; j++)
             {
+
                 float sightItr = 0.0f;
                 float soundItr = 0.0f;
                 float touchItr = 0.0f;
-                for (int h = 0; h < size.y / scannerResolution; h++)
+
+                for (int h = 0; h < size.y * scannerResolution; h++)
                 {
+
                     sightItr += scannerResolution;
                     soundItr += scannerResolution;
                     touchItr += scannerResolution;
@@ -121,8 +131,42 @@ public class roomClassifier : MonoBehaviour
                     {
                         sightItr = 0.0f; soundItr = 0.0f; touchItr = 0.0f;
                     }
-                    
+                    scanner.transform.position = new Vector3(
+                        scanner.transform.position.x,
+                        scanner.transform.position.y + (1.0f / scannerResolution),
+                        scanner.transform.position.z);
+
                 }
+
+                scanner.transform.position = new Vector3(
+                    scanner.transform.position.x - (1.0f / scannerResolution),
+                    _startLoc.y,
+                    scanner.transform.position.z);
+
+            }
+
+            scanner.transform.position = new Vector3(
+                    _startLoc.x,
+                    _startLoc.y,
+                    scanner.transform.position.z - (1.0f / scannerResolution));
+
+        }
+
+
+        string soundPath = "Assets/scripts/monsterScripts/roomProcessing/generatedPaths/" + roomID + "sound.txt";
+        string sightPath = "Assets/scripts/monsterScripts/roomProcessing/generatedPaths/" + roomID + "sight.txt";
+        string touchPath = "Assets/scripts/monsterScripts/roomProcessing/generatedPaths/" + roomID + "touch.txt";
+        StreamWriter ioOutSound = new StreamWriter(soundPath, true);
+        StreamWriter ioOutSight = new StreamWriter(sightPath, true);
+        StreamWriter ioOutTouch = new StreamWriter(touchPath, true);
+
+        for (int i = 0; i < relSize.x; i++)
+        {
+            for (int j = 0; i < relSize.y; j++)
+            {
+                ioOutSight.Write(mappedDataSight.pathData[i][j].ToString() + " ");
+                ioOutSound.Write(mappedDataSound.pathData[i][j].ToString() + " ");
+                ioOutTouch.Write(mappedDataTouch.pathData[i][j].ToString() + " ");
             }
         }
     }
