@@ -12,6 +12,6 @@ public class monsterPathfinding : MonoBehaviour
 
     private List<Vector2Int> path;
 
-
+    
     
 }
