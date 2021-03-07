@@ -6,6 +6,7 @@ TagManager:
   tags:
   - light
   - sound
+  - Enemy
   layers:
   - Default
   - TransparentFX

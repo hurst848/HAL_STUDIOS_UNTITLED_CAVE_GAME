@@ -21,6 +21,8 @@ public class cameraController : MonoBehaviour
     private bool isSprinting = false;
     private bool isCrouching = false;
 
+
+
       
 
 
@@ -88,8 +90,9 @@ public class cameraController : MonoBehaviour
         {
             // Check if control is being held
             if (Input.GetKeyDown(KeyCode.Space))
-            {
-                _rigidbody.AddForce(0, jumpForce, 0, ForceMode.Force);
+            {       
+                _rigidbody.AddForce(0, jumpForce, 0, ForceMode.VelocityChange);
+                StartCoroutine(jumpDelay());
                 //Debug.Log("jumping");
             }
 
@@ -127,17 +130,28 @@ public class cameraController : MonoBehaviour
 
         }
 
-        // Move the player       
-        _rigidbody.velocity = transform.TransformDirection(plyrDir);
-        
+        // Move the player 
+        if (canMove)
+        {
+            _rigidbody.velocity = transform.TransformDirection(plyrDir);
+
+        }
+
     }
 
-    void OnCollisionEnter(Collision onFloor)
+    void OnCollisionEnter(Collision collision)
     {
-        if (onFloor.gameObject.name == "Ground")
+        if (collision.gameObject.name == "Ground")
         {
             canJump = true;
             //Debug.Log("on the ground");
+        }
+
+        if (collision.gameObject.tag == "Enemy")
+        {
+            health.currentHP--;
+            //Debug.Log("enemyHit");
+
         }
     }
 
@@ -148,5 +162,15 @@ public class cameraController : MonoBehaviour
             canJump = false;
             //Debug.Log("off the ground");
         }
+    }
+
+
+  IEnumerator jumpDelay()
+    {
+        //Debug.Log("started");
+        playerGravity = 0;
+        yield return new WaitForSeconds(0.1f);
+        playerGravity = 1;
+        //Debug.Log("ended");
     }
 }
