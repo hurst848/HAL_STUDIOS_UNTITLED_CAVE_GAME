@@ -112,6 +112,14 @@ public class levelGeneratorScript : MonoBehaviour
         return -1;
     }
 
+    private bool isNodeCompatible(nodeData _a, nodeData _b)
+    {
+        
+  
+       
+        return false;
+    }
+
     
 
 }

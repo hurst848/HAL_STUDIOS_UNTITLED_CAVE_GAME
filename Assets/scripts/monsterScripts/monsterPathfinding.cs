@@ -1,17 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class monsterPathfinding : MonoBehaviour
 {
 
-    public roomMap currentRoom;
+    public Transform t;
 
-    private Vector2Int start;
-    private Vector2Int end;
+    void Update()
+    {
+        GetComponent<NavMeshAgent>().SetDestination(t.position);
+        
+    }
 
-    private List<Vector2Int> path;
 
-    
-    
 }
