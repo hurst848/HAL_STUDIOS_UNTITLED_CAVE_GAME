@@ -13,39 +13,16 @@ public class levelGeneratorScript : MonoBehaviour
      *      - index 3 is reserved for a cap room
      */
 
-
-    private class levelSegment
-    {
-        public int numberNodes = 0;
-        public GameObject room;
-        public levelSegment(GameObject _g)
-        {
-            room = _g;
-            numberNodes = room.transform.childCount - 1;
-        }
-    }
-
     public List<GameObject> rooms;
 
     public string seed;
    
     public int magnitude = 100;
 
-    private List<levelSegment> segments;
-    private List<levelSegment> level;
-
     private bool levelGenerated = false;
 
-
-    void Start()
-    {
-        for (int i = 0; i < rooms.Count; i++)
-        {
-            segments.Add(new levelSegment(rooms[i]));
-        }
-    }
-
-
+    private List<GameObject> generatedlevel = new List<GameObject>();
+  
     public void generateLevel() // may need to make async
     {
         // Convert seed string to int, then seed the random number generator
@@ -59,39 +36,30 @@ public class levelGeneratorScript : MonoBehaviour
         // Check to see if level if generated, if it has then throw and execption
         if (!levelGenerated)
         {
-            level.Add(new levelSegment(Instantiate(segments[2].room, transform)));
-            bool levelFinished = false;
-            while (!levelFinished)
+            generatedlevel.Add(Instantiate(rooms[2]));
+            while (areThereValidNodesRemaining())
             {
-                // choose empty node -------------------------------------------------//
-                int currentRoom = getValidNodeIndex();                                //
-                GameObject currentNode = level[currentRoom].room.transform.GetChild(  //  
-                    Random.Range(1,level[currentRoom].numberNodes)).gameObject;       //
-                // ------------------------------------------------------------------ //
-
-                // check if node is within magnitude ------------------------------------------------------------ //
-                    // if it is, generate as normal                                                               //          
-                if (Mathf.Abs(Vector3.Distance(currentNode.transform.position, transform.position)) < magnitude)  //
+                nodeData _a = getValidNode();
+                bool validRoomSelected = false;
+                while (!validRoomSelected)
                 {
-                    int newRoomId = Random.Range(4, segments.Count - 1);
-                    level.Add(new levelSegment(Instantiate(segments[newRoomId].room, transform)));
-                    float requiredRot = currentNode.transform.eulerAngles.y  - 180;
-                    float nodeRot  = level[level.Count - 1].room.transform.GetChild(1).transform.eulerAngles.y;
-                    // rotate room to fit
-
-                    // move room to loaction
-
-                    // check validity
+                    int roomToBeChecked = Random.Range(3, rooms.Count);
+                    List<int> validNodes = isRoomCompatible(_a, rooms[roomToBeChecked]);
+                    if (validNodes.Count > 0)
+                    {
+                        // generate the correct location and rotation
+                        Vector3 pos = new Vector3();
+                        Vector3 rot = new Vector3();
+                        // instatiate the gameObject
+                        generatedlevel.Add(Instantiate(rooms[roomToBeChecked],pos,Quaternion.Euler(rot), generatedlevel[0].transform));
+                        
+                        //check collisions with other pieces and update other nodes if they share the same location
+                        
+                        validRoomSelected = true;
+                    }
                 }
-                    // else use either the start, end or cap rooms
-                else
-                {
-                    
-                }
-                // ---------------------------------------------------------------------------------------------- //
-                
-                
             }
+
         }
         else
         {
@@ -100,26 +68,101 @@ public class levelGeneratorScript : MonoBehaviour
 
     }
 
-    private int getValidNodeIndex()
+    private bool areThereValidNodesRemaining()
     {
-        for (int i = 0; i < level.Count; i++)
+        // checks the generatedLevel list for nodes that do not have rooms on
+        for (int i = 0; i < generatedlevel.Count; i++)
         {
-            if (level[i].numberNodes != 0)
+            for (int j = 0; j < generatedlevel[i].GetComponent<roomData>().listOfNodes.Count; j++)
             {
-                return i;
+                if (!generatedlevel[i].GetComponent<roomData>().listOfNodes[j].GetComponent<nodeData>().connectedWithAnotherNode)
+                {
+                    return true;
+                }
             }
         }
-        return -1;
-    }
-
-    private bool isNodeCompatible(nodeData _a, nodeData _b)
-    {
-        
-  
-       
         return false;
     }
 
-    
+    private List<int> isRoomCompatible(nodeData _a, GameObject _room)
+    {
+        List<int> validIndicies = new List<int>();
+
+        for (int i = 0; i < _room.GetComponent<roomData>().listOfNodes.Count; i++)
+        {
+            if (isNodeCompatible(_a, _room.GetComponent<roomData>().listOfNodes[i].GetComponent<nodeData>()))
+            {
+                validIndicies.Add(i);
+            }
+        }
+
+        return validIndicies;
+    }
+
+
+    private bool isNodeCompatible(nodeData _a, nodeData _b)
+    {
+        if (_a.canConnectToCap == _b.isCap)
+        {
+            if (_a.canConnectToSmall == _b.canConnectToSmall)
+            {
+                return true;
+            }
+            else if (_a.canConnectToMedium == _b.isMedium)
+            {
+                return true;
+            }
+            else if (_a.canConnectToLarge == _b.isLarge)
+            {
+                return true;
+            }
+        }
+        else if (_a.canConnectToCorridor == _b.isCorridor)
+        {
+            if (_a.canConnectToSmall == _b.canConnectToSmall)
+            {
+                return true;
+            }
+            else if (_a.canConnectToMedium == _b.isMedium)
+            {
+                return true;
+            }
+            else if (_a.canConnectToLarge == _b.isLarge)
+            {
+                return true;
+            }
+        }
+        else if (_a.canConnectToRoom == _b.isRoom)
+        {
+            if (_a.canConnectToSmall == _b.canConnectToSmall)
+            {
+                return true;
+            }
+            else if (_a.canConnectToMedium == _b.isMedium)
+            {
+                return true;
+            }
+            else if (_a.canConnectToLarge == _b.isLarge)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private nodeData getValidNode()
+    {
+        nodeData _a = new nodeData();
+
+        for(int i = 0; i < generatedlevel.Count; i++)
+        {
+            if (!(generatedlevel[i].GetComponent<roomData>().listOfNodes.Count <= 0))
+            {
+                _a = generatedlevel[i].GetComponent<roomData>().listOfNodes[0].GetComponent<nodeData>();
+            }
+        }
+
+        return _a;
+    }
 
 }
