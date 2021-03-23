@@ -141,10 +141,10 @@ public class cameraController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name == "Ground")
+        if (collision.gameObject.tag == "Ground")
         {
             canJump = true;
-            //Debug.Log("on the ground");
+            Debug.Log("on the ground");
         }
 
         if (collision.gameObject.tag == "Enemy")
@@ -157,7 +157,7 @@ public class cameraController : MonoBehaviour
 
     void OnCollisionExit(Collision offFloor)
     {
-        if (offFloor.gameObject.name == "Ground")
+        if (offFloor.gameObject.tag == "Ground")
         {
             canJump = false;
             //Debug.Log("off the ground");
