@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4906320740699404004
 Transform:
@@ -89,6 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5505356471019882428}
   - component: {fileID: 5835514659714238913}
+  - component: {fileID: 2971240070530009821}
   m_Layer: 0
   m_Name: StartingRoom6x3x6
   m_TagString: Untagged
@@ -126,6 +127,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 75b732afe12a6674bac295fb101803fa, type: 3}
+--- !u!114 &2971240070530009821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5128795297005804806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fed3a33c95039c44b2c84aaa4083a05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listOfNodes:
+  - {fileID: 8433882510222817948}
 --- !u!1 &8433882510222817948
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,6 +150,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3323491020689815654}
+  - component: {fileID: 1223942663050737923}
   m_Layer: 0
   m_Name: node1
   m_TagString: Untagged
@@ -156,3 +172,28 @@ Transform:
   m_Father: {fileID: 5505356471019882428}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1223942663050737923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8433882510222817948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b40d8439c6740741be7589f153136c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSmall: 0
+  isMedium: 0
+  isLarge: 1
+  isCorridor: 0
+  isRoom: 1
+  isCap: 0
+  canConnectToSmall: 1
+  canConnectToMedium: 1
+  canConnectToLarge: 1
+  canConnectToCorridor: 1
+  canConnectToRoom: 1
+  canConnectToCap: 0
+  connectedWithAnotherNode: 0

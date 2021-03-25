@@ -22,7 +22,30 @@ public class levelGeneratorScript : MonoBehaviour
     private bool levelGenerated = false;
 
     private List<GameObject> generatedlevel = new List<GameObject>();
-  
+
+    public bool generateLevell = false;
+
+    private void Start()
+    {
+        List<int> test = new List<int>();
+        test.Add(1);
+        test.Add(1);
+        test.Add(1);
+        test.Add(1);
+
+        Debug.Log(test.Count);
+    }
+
+    void Update()
+    {
+        if (generateLevell)
+        {
+            Debug.Log("WORKING");
+            generateLevell = false;
+            generateLevelLinear();
+        }
+    }
+
     public void generateLevel() // may need to make async
     {
         // Convert seed string to int, then seed the random number generator
@@ -67,6 +90,52 @@ public class levelGeneratorScript : MonoBehaviour
         }
 
     }
+
+    public void generateLevelLinear()
+    {
+        int trueSeed = 0;
+        for (int i = 0; i < seed.Length; i++)
+        {
+            trueSeed += seed[i];
+        }
+        Random.InitState(trueSeed);
+
+        if (!levelGenerated)
+        {
+            generatedlevel.Add(Instantiate(rooms[0]));
+            for (int i = 0; i < magnitude - 1; i++)
+            {
+                nodeData _a = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[0].GetComponent<nodeData>();
+                int roomToBeChecked = Random.Range(4, rooms.Count - 1);
+                List<int> validNodes = isRoomCompatible(_a, rooms[roomToBeChecked]);
+                if (validNodes.Count > 0)
+                {
+                    generatedlevel.Add(Instantiate(rooms[roomToBeChecked]));
+                    GameObject _b = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[validNodes[Random.Range(0, validNodes.Count - 1)]];
+                    //Random.Range(0,generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes.Count - 1)
+                    // rotate the new room
+                    float rotDiff = (((_a.gameObject.transform.rotation.eulerAngles.y - 180) + 360) % 360) - (((_b.gameObject.transform.rotation.eulerAngles.y) + 360) % 360); 
+                    generatedlevel[generatedlevel.Count - 1].transform.Rotate(transform.eulerAngles.x, transform.eulerAngles.y + rotDiff, transform.eulerAngles.z);
+
+                    // move the room to the right place
+                    generatedlevel[generatedlevel.Count - 1].transform.position += new Vector3(
+                        (_a.gameObject.transform.position.x - _b.transform.position.x),
+                        (_a.gameObject.transform.position.y - _b.transform.position.y),
+                        (_a.gameObject.transform.position.z - _b.transform.position.z));
+
+                    // delete used nodes
+                    generatedlevel[generatedlevel.Count - 2].GetComponent<roomData>().listOfNodes.RemoveAt(0);
+                    generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes.RemoveAt(validNodes[0]);
+                }
+                else
+                {
+                    i--;
+                }
+            }
+        }
+    }
+
+
 
     private bool areThereValidNodesRemaining()
     {
@@ -164,5 +233,7 @@ public class levelGeneratorScript : MonoBehaviour
 
         return _a;
     }
+
+   
 
 }

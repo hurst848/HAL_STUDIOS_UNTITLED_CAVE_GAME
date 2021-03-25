@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 655235434750055019}
+  - component: {fileID: 5948869790691333858}
   m_Layer: 0
   m_Name: node2
   m_TagString: Untagged
@@ -30,6 +31,31 @@ Transform:
   m_Father: {fileID: 4240055539604567315}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &5948869790691333858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433746297257433737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b40d8439c6740741be7589f153136c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSmall: 0
+  isMedium: 0
+  isLarge: 1
+  isCorridor: 0
+  isRoom: 1
+  isCap: 0
+  canConnectToSmall: 0
+  canConnectToMedium: 1
+  canConnectToLarge: 1
+  canConnectToCorridor: 1
+  canConnectToRoom: 0
+  canConnectToCap: 1
+  connectedWithAnotherNode: 0
 --- !u!1 &3381995415742858023
 GameObject:
   m_ObjectHideFlags: 0
@@ -39,6 +65,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 772142534415174323}
+  - component: {fileID: 4010475744551868068}
   m_Layer: 0
   m_Name: node1
   m_TagString: Untagged
@@ -60,6 +87,31 @@ Transform:
   m_Father: {fileID: 4240055539604567315}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4010475744551868068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3381995415742858023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b40d8439c6740741be7589f153136c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSmall: 0
+  isMedium: 0
+  isLarge: 1
+  isCorridor: 0
+  isRoom: 1
+  isCap: 0
+  canConnectToSmall: 0
+  canConnectToMedium: 1
+  canConnectToLarge: 1
+  canConnectToCorridor: 1
+  canConnectToRoom: 0
+  canConnectToCap: 0
+  connectedWithAnotherNode: 0
 --- !u!1 &3574842846621921193
 GameObject:
   m_ObjectHideFlags: 0
@@ -70,6 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4240055539604567315}
   - component: {fileID: 8384824590998758265}
+  - component: {fileID: 6212892243059709329}
   m_Layer: 0
   m_Name: WideCorridor6x3x6
   m_TagString: Untagged
@@ -108,6 +161,21 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 6ea8fe91a0cb72247917a811c795be42, type: 3}
+--- !u!114 &6212892243059709329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3574842846621921193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fed3a33c95039c44b2c84aaa4083a05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listOfNodes:
+  - {fileID: 3381995415742858023}
+  - {fileID: 1433746297257433737}
 --- !u!1 &5481354914009290608
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,7 +192,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3650027030483010635
 Transform:

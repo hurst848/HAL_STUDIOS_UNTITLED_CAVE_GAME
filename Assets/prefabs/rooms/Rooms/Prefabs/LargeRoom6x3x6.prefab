@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6851305535837097794
 Transform:
@@ -88,6 +88,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5831659427446657811}
+  - component: {fileID: 3953698161606832544}
   m_Layer: 0
   m_Name: node1
   m_TagString: Untagged
@@ -109,6 +110,31 @@ Transform:
   m_Father: {fileID: 6297314479033155098}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3953698161606832544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5831659427446657808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b40d8439c6740741be7589f153136c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSmall: 0
+  isMedium: 0
+  isLarge: 1
+  isCorridor: 0
+  isRoom: 1
+  isCap: 0
+  canConnectToSmall: 1
+  canConnectToMedium: 1
+  canConnectToLarge: 0
+  canConnectToCorridor: 1
+  canConnectToRoom: 1
+  canConnectToCap: 0
+  connectedWithAnotherNode: 0
 --- !u!1 &5831659428984350552
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,6 +144,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5831659428984350555}
+  - component: {fileID: 2464128901303329506}
   m_Layer: 0
   m_Name: node2
   m_TagString: Untagged
@@ -139,6 +166,31 @@ Transform:
   m_Father: {fileID: 6297314479033155098}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &2464128901303329506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5831659428984350552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b40d8439c6740741be7589f153136c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSmall: 0
+  isMedium: 0
+  isLarge: 1
+  isCorridor: 0
+  isRoom: 1
+  isCap: 0
+  canConnectToSmall: 1
+  canConnectToMedium: 1
+  canConnectToLarge: 0
+  canConnectToCorridor: 1
+  canConnectToRoom: 1
+  canConnectToCap: 0
+  connectedWithAnotherNode: 0
 --- !u!1 &6642631930430989472
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,6 +201,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6297314479033155098}
   - component: {fileID: 6084492443130625942}
+  - component: {fileID: 466559425100348003}
   m_Layer: 0
   m_Name: LargeRoom6x3x6
   m_TagString: Untagged
@@ -187,3 +240,18 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 17c63eacc0b515049b679bd858cc6a2e, type: 3}
+--- !u!114 &466559425100348003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6642631930430989472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fed3a33c95039c44b2c84aaa4083a05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listOfNodes:
+  - {fileID: 5831659427446657808}
+  - {fileID: 5831659428984350552}

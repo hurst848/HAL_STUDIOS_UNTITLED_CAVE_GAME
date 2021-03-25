@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1715411901617069615}
   - component: {fileID: 3939469498728893866}
+  - component: {fileID: 4938501939679906772}
   m_Layer: 0
   m_Name: SupplyRoom3x3x3
   m_TagString: Untagged
@@ -47,6 +48,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 7a6ed934e996ec749b750b7e76c45c1c, type: 3}
+--- !u!114 &4938501939679906772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055205647337424021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fed3a33c95039c44b2c84aaa4083a05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listOfNodes:
+  - {fileID: 4506493946089365450}
 --- !u!1 &4506493946089365450
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,6 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6452030371585271455}
+  - component: {fileID: 7740747480543291967}
   m_Layer: 0
   m_Name: node1
   m_TagString: Untagged
@@ -77,6 +93,31 @@ Transform:
   m_Father: {fileID: 1715411901617069615}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7740747480543291967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506493946089365450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b40d8439c6740741be7589f153136c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSmall: 1
+  isMedium: 0
+  isLarge: 0
+  isCorridor: 0
+  isRoom: 0
+  isCap: 1
+  canConnectToSmall: 1
+  canConnectToMedium: 1
+  canConnectToLarge: 1
+  canConnectToCorridor: 1
+  canConnectToRoom: 1
+  canConnectToCap: 0
+  connectedWithAnotherNode: 0
 --- !u!1 &6991914588376661068
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,7 +134,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2287382464967077751
 Transform:
