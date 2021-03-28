@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class levelGeneratorScript : MonoBehaviour
 {
@@ -25,16 +26,7 @@ public class levelGeneratorScript : MonoBehaviour
 
     public bool generateLevell = false;
 
-    private void Start()
-    {
-        List<int> test = new List<int>();
-        test.Add(1);
-        test.Add(1);
-        test.Add(1);
-        test.Add(1);
-
-        Debug.Log(test.Count);
-    }
+    public NavMeshSurface surface;
 
     void Update()
     {
@@ -82,7 +74,7 @@ public class levelGeneratorScript : MonoBehaviour
                     }
                 }
             }
-
+            
         }
         else
         {
@@ -133,6 +125,8 @@ public class levelGeneratorScript : MonoBehaviour
                 }
             }
         }
+
+        surface.BuildNavMesh();
     }
 
 
