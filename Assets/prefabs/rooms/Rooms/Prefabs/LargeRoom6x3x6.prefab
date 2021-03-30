@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 6851305535837097794}
   - component: {fileID: 8629905454356428296}
   - component: {fileID: 5108822953349206684}
-  m_Layer: 0
+  - component: {fileID: 7101840735611948872}
+  m_Layer: 11
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,6 +80,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &7101840735611948872
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2423663839005564025}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6, y: 3, z: 6}
+  m_Center: {x: -3, y: 1.5, z: -3}
 --- !u!1 &5831659427446657808
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,7 +218,7 @@ GameObject:
   - component: {fileID: 466559425100348003}
   m_Layer: 0
   m_Name: LargeRoom6x3x6
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

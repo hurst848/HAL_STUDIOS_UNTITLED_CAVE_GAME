@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 6433319227064264003}
   - component: {fileID: 8183201722399267849}
   - component: {fileID: 4662677782404937885}
-  m_Layer: 0
+  - component: {fileID: 3049992975410185278}
+  m_Layer: 11
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,6 +80,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &3049992975410185278
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2878242981910230648}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.003665, y: 3.008944, z: 12}
+  m_Center: {x: -1.5018325, y: 1.495528, z: -6}
 --- !u!1 &6250205250901027119
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,7 +442,7 @@ GameObject:
   - component: {fileID: 1342729496378117488}
   m_Layer: 0
   m_Name: LongCorridor2v3x3x12
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

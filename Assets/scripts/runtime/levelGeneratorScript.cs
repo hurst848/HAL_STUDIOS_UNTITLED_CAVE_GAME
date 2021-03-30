@@ -17,7 +17,7 @@ public class levelGeneratorScript : MonoBehaviour
     public List<GameObject> rooms;
 
     public string seed;
-   
+
     public int magnitude = 100;
 
     private bool levelGenerated = false;
@@ -28,6 +28,9 @@ public class levelGeneratorScript : MonoBehaviour
 
     public NavMeshSurface surface;
 
+
+    private List<int> roomIndicies = new List<int>();
+
     void Update()
     {
         if (generateLevell)
@@ -37,52 +40,52 @@ public class levelGeneratorScript : MonoBehaviour
             generateLevelLinear();
         }
     }
-
-    public void generateLevel() // may need to make async
-    {
-        // Convert seed string to int, then seed the random number generator
-        int trueSeed = 0;
-        for (int i =0; i<seed.Length; i++)
+    /*
+        public void generateLevel() // may need to make async
         {
-            trueSeed += seed[i]; 
-        }
-        Random.InitState(trueSeed);
-
-        // Check to see if level if generated, if it has then throw and execption
-        if (!levelGenerated)
-        {
-            generatedlevel.Add(Instantiate(rooms[2]));
-            while (areThereValidNodesRemaining())
+            // Convert seed string to int, then seed the random number generator
+            int trueSeed = 0;
+            for (int i =0; i<seed.Length; i++)
             {
-                nodeData _a = getValidNode();
-                bool validRoomSelected = false;
-                while (!validRoomSelected)
+                trueSeed += seed[i]; 
+            }
+            Random.InitState(trueSeed);
+
+            // Check to see if level if generated, if it has then throw and execption
+            if (!levelGenerated)
+            {
+                generatedlevel.Add(Instantiate(rooms[2]));
+                while (areThereValidNodesRemaining())
                 {
-                    int roomToBeChecked = Random.Range(3, rooms.Count);
-                    List<int> validNodes = isRoomCompatible(_a, rooms[roomToBeChecked]);
-                    if (validNodes.Count > 0)
+                    nodeData _a = getValidNode();
+                    bool validRoomSelected = false;
+                    while (!validRoomSelected)
                     {
-                        // generate the correct location and rotation
-                        Vector3 pos = new Vector3();
-                        Vector3 rot = new Vector3();
-                        // instatiate the gameObject
-                        generatedlevel.Add(Instantiate(rooms[roomToBeChecked],pos,Quaternion.Euler(rot), generatedlevel[0].transform));
-                        
-                        //check collisions with other pieces and update other nodes if they share the same location
-                        
-                        validRoomSelected = true;
+                        int roomToBeChecked = Random.Range(3, rooms.Count);
+                        List<int> validNodes = isRoomCompatible(_a, rooms[roomToBeChecked]);
+                        if (validNodes.Count > 0)
+                        {
+                            // generate the correct location and rotation
+                            Vector3 pos = new Vector3();
+                            Vector3 rot = new Vector3();
+                            // instatiate the gameObject
+                            generatedlevel.Add(Instantiate(rooms[roomToBeChecked],pos,Quaternion.Euler(rot), generatedlevel[0].transform));
+
+                            //check collisions with other pieces and update other nodes if they share the same location
+
+                            validRoomSelected = true;
+                        }
                     }
                 }
+
             }
-            
-        }
-        else
-        {
-            throw new System.ArgumentException("LEVEL HAS ALREADY BEEN GENERATED");
-        }
+            else
+            {
+                throw new System.ArgumentException("LEVEL HAS ALREADY BEEN GENERATED");
+            }
 
-    }
-
+        }
+    */
     public void generateLevelLinear()
     {
         int trueSeed = 0;
@@ -92,59 +95,93 @@ public class levelGeneratorScript : MonoBehaviour
         }
         Random.InitState(trueSeed);
 
+        /*
+            PROBABLE FIX:
+                - for each loop of while, create a tmp list of rooms
+                    remove room from the list once all valid nodes have 
+                    been tested. Do something simmilar for rooms so it is
+                    not repeated and every possibility is tested
+                - if every combination is tested and still dosent work,
+                    break the program
+
+         */
+
+
         if (!levelGenerated)
         {
             generatedlevel.Add(Instantiate(rooms[0]));
-            for (int i = 0; i < magnitude - 1; i++)
+            while (generatedlevel.Count < magnitude)
             {
-                nodeData _a = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[0].GetComponent<nodeData>();
-                int roomToBeChecked = Random.Range(4, rooms.Count - 1);
-                List<int> validNodes = isRoomCompatible(_a, rooms[roomToBeChecked]);
-                if (validNodes.Count > 0)
+                resetRoomIndicies();
+                int startIndex = Random.Range(0, generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes.Count - 1);
+                nodeData _a = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[startIndex].GetComponent<nodeData>();
+                bool roomGenerated = false;
+                while (!roomGenerated)
                 {
-                    generatedlevel.Add(Instantiate(rooms[roomToBeChecked]));
-                    GameObject _b = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[validNodes[Random.Range(0, validNodes.Count - 1)]];
-                    //Random.Range(0,generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes.Count - 1)
-                    // rotate the new room
-                    float rotDiff = (((_a.gameObject.transform.rotation.eulerAngles.y - 180) + 360) % 360) - (((_b.gameObject.transform.rotation.eulerAngles.y) + 360) % 360); 
-                    generatedlevel[generatedlevel.Count - 1].transform.Rotate(transform.eulerAngles.x, transform.eulerAngles.y + rotDiff, transform.eulerAngles.z);
+                    Debug.Log(roomIndicies.Count - 1);
+                    int roomToBeChecked = Random.Range(roomIndicies[0], roomIndicies[roomIndicies.Count - 1]);
+                    List<int> validNodes = isRoomCompatible(_a, rooms[roomToBeChecked]);
+                    while (validNodes.Count > 0 && !roomGenerated)
+                    {
+                        validNodes = isRoomCompatible(_a, rooms[roomToBeChecked]);
+                        if (validNodes.Count > 0)
+                        {
+                            generatedlevel.Add(Instantiate(rooms[roomToBeChecked]));
+                            int chosenIndex = Random.Range(0, validNodes.Count - 1);
+                            GameObject _b = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[validNodes[chosenIndex]];
+                            // rotate the new room
+                            float rotDiff = (((_a.gameObject.transform.rotation.eulerAngles.y - 180) + 360) % 360) - (((_b.gameObject.transform.rotation.eulerAngles.y) + 360) % 360);
+                            generatedlevel[generatedlevel.Count - 1].transform.Rotate(transform.eulerAngles.x, transform.eulerAngles.y + rotDiff, transform.eulerAngles.z);
 
-                    // move the room to the right place
-                    generatedlevel[generatedlevel.Count - 1].transform.position += new Vector3(
-                        (_a.gameObject.transform.position.x - _b.transform.position.x),
-                        (_a.gameObject.transform.position.y - _b.transform.position.y),
-                        (_a.gameObject.transform.position.z - _b.transform.position.z));
+                            // -----------------------move the room to the right place-------------------//
+                            generatedlevel[generatedlevel.Count - 1].transform.position += new Vector3(  //   
+                                (_a.gameObject.transform.position.x - _b.transform.position.x),          //
+                                (_a.gameObject.transform.position.y - _b.transform.position.y),          //
+                                (_a.gameObject.transform.position.z - _b.transform.position.z));         //
+                            // ------------------------------------------------------------------------- //
 
-                    // delete used nodes
-                    generatedlevel[generatedlevel.Count - 2].GetComponent<roomData>().listOfNodes.RemoveAt(0);
-                    generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes.RemoveAt(validNodes[0]);
+                            // ---------check if the new room intersects with anything--------- //
+                            if (checkIntersect())                                               //
+                            {                                                                   //
+                                Debug.Log("node was intersecting");                             //
+                                GameObject tbr = generatedlevel[generatedlevel.Count - 1];      //
+                                generatedlevel.RemoveAt(generatedlevel.Count - 1);              //
+                                Destroy(tbr);                                                   //
+                                validNodes.RemoveAt(chosenIndex);                               //
+                            }                                                                   //
+                            // ---------------------------------------------------------------- //
+                            else
+                            {
+                                // delete used nodes
+                                GameObject g12 = generatedlevel[generatedlevel.Count - 2].GetComponent<roomData>().listOfNodes[startIndex];
+                                GameObject g13 = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[validNodes[chosenIndex]];
+                                generatedlevel[generatedlevel.Count - 2].GetComponent<roomData>().listOfNodes.RemoveAt(0);
+                                generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes.RemoveAt(validNodes[chosenIndex]);
+                                Destroy(g12);
+                                Destroy(g13);
+                                roomGenerated = true;
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("failed to find a valid node");
+                        }
+
+                    }
+                    roomIndicies.Remove(roomToBeChecked);
                 }
-                else
-                {
-                    i--;
-                }
+                
             }
         }
-
-        surface.BuildNavMesh();
+        // uncomment when level gen is done
+        //surface.BuildNavMesh();
     }
-
-
-
-    private bool areThereValidNodesRemaining()
+    private void OnDrawGizmos()
     {
-        // checks the generatedLevel list for nodes that do not have rooms on
-        for (int i = 0; i < generatedlevel.Count; i++)
+        foreach (GameObject g in generatedlevel)
         {
-            for (int j = 0; j < generatedlevel[i].GetComponent<roomData>().listOfNodes.Count; j++)
-            {
-                if (!generatedlevel[i].GetComponent<roomData>().listOfNodes[j].GetComponent<nodeData>().connectedWithAnotherNode)
-                {
-                    return true;
-                }
-            }
+            //Gizmos.DrawCube(g.transform.position, g.transform.GetChild(0).GetComponent<BoxCollider>().bounds.size);
         }
-        return false;
     }
 
     private List<int> isRoomCompatible(nodeData _a, GameObject _room)
@@ -217,7 +254,7 @@ public class levelGeneratorScript : MonoBehaviour
     {
         nodeData _a = new nodeData();
 
-        for(int i = 0; i < generatedlevel.Count; i++)
+        for (int i = 0; i < generatedlevel.Count; i++)
         {
             if (!(generatedlevel[i].GetComponent<roomData>().listOfNodes.Count <= 0))
             {
@@ -228,6 +265,26 @@ public class levelGeneratorScript : MonoBehaviour
         return _a;
     }
 
-   
 
+    private bool checkIntersect()
+    {
+        for (int i = 0; i < generatedlevel.Count - 1; i++)
+        {
+            if (generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().bounds.Intersects(generatedlevel[i].transform.GetChild(0).GetComponent<BoxCollider>().bounds))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void resetRoomIndicies()
+    {
+        roomIndicies = new List<int>();
+        for (int i = 2; i < rooms.Count -1; i++)
+        {
+            roomIndicies.Add(i);
+        }
+
+    }
 }

@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 1372740317597408750}
   m_Layer: 0
   m_Name: StaircaseRoom3x6x6
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -187,7 +187,8 @@ GameObject:
   - component: {fileID: 1386010905028079418}
   - component: {fileID: 4317604932500199024}
   - component: {fileID: 778714741232448228}
-  m_Layer: 0
+  - component: {fileID: 1939636150860927537}
+  m_Layer: 11
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,3 +256,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &1939636150860927537
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7893181689610517505}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3, y: 6, z: 6.003665}
+  m_Center: {x: -1.503665, y: 3, z: -3.0018325}

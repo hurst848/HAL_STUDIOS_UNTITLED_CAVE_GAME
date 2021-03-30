@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 5861841584913898950}
   - component: {fileID: 8759042235259282572}
   - component: {fileID: 5236530369672953880}
-  m_Layer: 0
+  - component: {fileID: 7663488764480617002}
+  m_Layer: 11
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,6 +80,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &7663488764480617002
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3454083494793826045}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.003665, y: 3.008944, z: 9}
+  m_Center: {x: -1.5018325, y: 1.495528, z: -4.5}
 --- !u!1 &5936471374265234980
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,7 +106,7 @@ GameObject:
   - component: {fileID: 957097337443202352}
   m_Layer: 0
   m_Name: MediumCorridor2v3x3x9
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

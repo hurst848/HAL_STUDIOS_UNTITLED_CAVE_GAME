@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4938501939679906772}
   m_Layer: 0
   m_Name: SupplyRoom3x3x3
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -129,7 +129,8 @@ GameObject:
   - component: {fileID: 2287382464967077751}
   - component: {fileID: 3992798856595363389}
   - component: {fileID: 454018342132445865}
-  m_Layer: 0
+  - component: {fileID: 5360871325550168673}
+  m_Layer: 11
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,3 +198,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &5360871325550168673
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6991914588376661068}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.995, y: 2.995, z: 2.995}
+  m_Center: {x: -1.4975, y: 1.4975, z: -1.4975}
