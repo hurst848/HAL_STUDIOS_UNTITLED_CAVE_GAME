@@ -142,11 +142,11 @@ MonoBehaviour:
   isCorridor: 1
   isRoom: 0
   isCap: 0
-  canConnectToSmall: 0
-  canConnectToMedium: 0
+  canConnectToSmall: 1
+  canConnectToMedium: 1
   canConnectToLarge: 1
   canConnectToCorridor: 1
-  canConnectToRoom: 1
+  canConnectToRoom: 0
   canConnectToCap: 0
   connectedWithAnotherNode: 0
 --- !u!1 &5901973803189879054
@@ -198,11 +198,11 @@ MonoBehaviour:
   isCorridor: 1
   isRoom: 0
   isCap: 0
-  canConnectToSmall: 0
-  canConnectToMedium: 0
+  canConnectToSmall: 1
+  canConnectToMedium: 1
   canConnectToLarge: 1
   canConnectToCorridor: 1
-  canConnectToRoom: 1
+  canConnectToRoom: 0
   canConnectToCap: 0
   connectedWithAnotherNode: 0
 --- !u!1 &6713015701851407255
