@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 1966997309309394530}
   - component: {fileID: 2508606086389137681}
   - component: {fileID: 1372740317597408750}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: StaircaseRoom3x6x6
   m_TagString: Ground
   m_Icon: {fileID: 0}

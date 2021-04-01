@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 6424743238383103134}
   - component: {fileID: 5247350697041737746}
   - component: {fileID: 957097337443202352}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MediumCorridor2v3x3x9
   m_TagString: Ground
   m_Icon: {fileID: 0}

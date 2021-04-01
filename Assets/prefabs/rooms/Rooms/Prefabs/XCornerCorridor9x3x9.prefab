@@ -272,7 +272,7 @@ GameObject:
   - component: {fileID: 5220365931762263250}
   - component: {fileID: 2054216142514260214}
   - component: {fileID: 8504712244033139611}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: XCornerCorridor9x3x9
   m_TagString: Ground
   m_Icon: {fileID: 0}

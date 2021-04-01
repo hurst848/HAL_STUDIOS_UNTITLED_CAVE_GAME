@@ -328,7 +328,7 @@ GameObject:
   - component: {fileID: 9194255396114277829}
   - component: {fileID: 1303882533318863473}
   - component: {fileID: 8799956275914297795}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ShortCorridor2v3x3x16
   m_TagString: Ground
   m_Icon: {fileID: 0}

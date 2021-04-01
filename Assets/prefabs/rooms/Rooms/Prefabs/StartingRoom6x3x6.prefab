@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 5505356471019882428}
   - component: {fileID: 5835514659714238913}
   - component: {fileID: 2971240070530009821}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: StartingRoom6x3x6
   m_TagString: Ground
   m_Icon: {fileID: 0}

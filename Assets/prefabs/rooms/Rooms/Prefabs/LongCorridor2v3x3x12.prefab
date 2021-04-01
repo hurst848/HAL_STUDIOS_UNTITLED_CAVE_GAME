@@ -440,7 +440,7 @@ GameObject:
   - component: {fileID: 5852297916509983771}
   - component: {fileID: 5429696579387832373}
   - component: {fileID: 1342729496378117488}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LongCorridor2v3x3x12
   m_TagString: Ground
   m_Icon: {fileID: 0}

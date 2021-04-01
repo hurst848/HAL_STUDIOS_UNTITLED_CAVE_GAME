@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 6297314479033155098}
   - component: {fileID: 6084492443130625942}
   - component: {fileID: 466559425100348003}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LargeRoom6x3x6
   m_TagString: Ground
   m_Icon: {fileID: 0}

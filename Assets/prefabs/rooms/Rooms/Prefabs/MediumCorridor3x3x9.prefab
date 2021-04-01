@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 3279501003001113443}
   - component: {fileID: 6493301106756078950}
   - component: {fileID: 8700667458848017903}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MediumCorridor3x3x9
   m_TagString: Ground
   m_Icon: {fileID: 0}

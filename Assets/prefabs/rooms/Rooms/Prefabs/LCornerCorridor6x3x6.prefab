@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 6395556834571152644}
   - component: {fileID: 7163507441652694816}
   - component: {fileID: 3518681544565282162}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LCornerCorridor6x3x6
   m_TagString: Ground
   m_Icon: {fileID: 0}
