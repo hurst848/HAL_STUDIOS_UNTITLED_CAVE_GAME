@@ -14,16 +14,12 @@ public class levelGeneratorScript : MonoBehaviour
 
 
     /*
-     * POSSIBLE FIX:
-     *      MOVE GENERATEROOM into coroutine
-     *      move collision detection to roomData script
-     *      
-     *      when intersection needs checking:
-     *          - wait 2-5 fixedupdates before continuing
-     *          - pull data from roomData whether the room is intersecting
-     *              or have something in the fixed update in this method
-     *          - use this data to resolve a conditional
-     *      
+     * TODO:
+     *      - make it so it can consitently complete a room generation
+     *          without crashing
+     *      - add extranouse paths after main generataion
+     *      - add the newest generated room (dosent have to be "compatible")
+     *      - optimise when needed (get wait times as low as possible)
      * 
      */
 
@@ -45,10 +41,17 @@ public class levelGeneratorScript : MonoBehaviour
 
     public NavMeshSurface surface;
 
-    public GameObject hostObject; 
+    public GameObject hostObject;
+
+    private bool pollIntersection = false;
+    private int numIntersections = 0;
+    private LayerMask mask;
+
+    private bool waitForRoom = false;
 
     private void Start()
     {
+        mask = LayerMask.GetMask("roomGenDetection");
         hostObject = new GameObject();
         generatedlevel.Add(Instantiate(rooms[0], hostObject.transform));
     }
@@ -63,12 +66,34 @@ public class levelGeneratorScript : MonoBehaviour
         }
         if (Input.GetKeyDown("space"))
         {
-            generateLinearRoom();
+            StartCoroutine(generateLinearRoom());
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
             StartCoroutine(generateLevel());
         }
+    }
+
+    private void FixedUpdate()
+    {
+        if (pollIntersection)
+        {
+            Vector3 boxCentre = generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().bounds.center;// + new Vector3(0, 0.15f, 0);
+            if (Physics.CheckBox(boxCentre, 
+                generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size * 0.25f, 
+                generatedlevel[generatedlevel.Count - 1].transform.rotation,
+                mask, QueryTriggerInteraction.Collide))
+            {
+                //Debug.Break();
+                Debug.Log("INTERSECTING");
+                numIntersections++;
+            }
+        }
+        else
+        {
+            numIntersections = 0;        
+        }
+
     }
 
     IEnumerator generateLevel()
@@ -81,8 +106,11 @@ public class levelGeneratorScript : MonoBehaviour
         Random.InitState(trueSeed);
         for (int i = 0; i < magnitude; i++)
         {
-            generateLinearRoom();
-            //yield return new WaitForSeconds(0.5f);
+            StartCoroutine(generateLinearRoom());
+            while (waitForRoom)
+            {
+                yield return new WaitForSeconds(0.01f); 
+            }
         }
         //check();
         
@@ -90,12 +118,13 @@ public class levelGeneratorScript : MonoBehaviour
         yield return null;
     }
 
-    void generateLinearRoom()
+    IEnumerator generateLinearRoom()
     {
-        
+        waitForRoom = true;
         // choose which node on the newest room to generate from, switch up the room if nodes are avalible
         if (generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes.Count <= 0)
         {
+            Debug.Log("SWAPPED");
             // switch the newest room with one that has availible rooms
             GameObject tmpA = generatedlevel[generatedlevel.Count - 1];
             int newRoom = findNewRoom();
@@ -109,7 +138,7 @@ public class levelGeneratorScript : MonoBehaviour
 
         // calcualte all rooms compatible with this node
         List<int> validRooms = getCompatibleRooms(_a);
-
+        Debug.Log("NUMBER OF VALID ROOMS " + validRooms.Count);
         bool roomGenerated = false;
 
         // loop through until room is generated
@@ -127,6 +156,8 @@ public class levelGeneratorScript : MonoBehaviour
             {
                 // instantiate the room
                 generatedlevel.Add(Instantiate(rooms[roomToBeChecked], hostObject.transform));
+                
+
                 // pick one of the valid nodes and assign it to gameobject _b
                 if (validNodes.Count != 0)
                 {
@@ -142,9 +173,14 @@ public class levelGeneratorScript : MonoBehaviour
                     (_a.gameObject.transform.position.x - _b.transform.position.x),
                     (_a.gameObject.transform.position.y - _b.transform.position.y),
                     (_a.gameObject.transform.position.z - _b.transform.position.z));
+                   
 
+                    generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground");
+                    generatedlevel[generatedlevel.Count - 2].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground");
+                    pollIntersection = true;
+                    yield return new WaitForSeconds(0.1f);
                     // check if the new room intersects with any nearby rooms
-                    if (checkIntersectl())
+                    if (numIntersections > 0)
                     {
                         // if it is intersecting, destroy the room and remove this node from the valid list
                         Debug.Log("ROOM REMOVED DUE TO INTERSECTION");
@@ -155,6 +191,7 @@ public class levelGeneratorScript : MonoBehaviour
                     }
                     else
                     {
+                        
                         //Debug.Break();
                         GameObject g12 = generatedlevel[generatedlevel.Count - 2].GetComponent<roomData>().listOfNodes[startIndex];
                         GameObject g13 = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[validNodes[chosenIndex]];
@@ -164,6 +201,10 @@ public class levelGeneratorScript : MonoBehaviour
                         Destroy(g13);
                         roomGenerated = true;
                     }
+                    pollIntersection = false;
+                    generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("roomGenDetection");
+                    generatedlevel[generatedlevel.Count - 2].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("roomGenDetection");
+                    yield return new WaitForSeconds(0.1f);
                 }
             }
 
@@ -173,23 +214,15 @@ public class levelGeneratorScript : MonoBehaviour
             // if all possible combinations fail on that start node, choose a new one
             if (!(validRooms.Count > 0))
             {
+                usedIndicies.Add(startIndex);
                 Debug.Log("no rooms found");
                 if (generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes.Count != usedIndicies.Count)
                 {
                     // add this node to a list so it cant be used again
-                    usedIndicies.Add(startIndex);
                     bool newStartIndex = false;
                     // generate a new index, excluding those from the usedIndicies list
                     while (!newStartIndex)
                     {
-                        if (generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes.Count <= 0)
-                        { 
-                            // switch the newest room with one that has availible rooms
-                            GameObject tmpA = generatedlevel[generatedlevel.Count - 1];
-                            int newRoom = findNewRoom();
-                            generatedlevel[generatedlevel.Count - 1] = generatedlevel[newRoom];
-                            generatedlevel[newRoom] = tmpA;
-                        }
                         startIndex = Random.Range(0, generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes.Count - 1);
                         if (!(usedIndicies.Contains(startIndex)))
                         {
@@ -198,17 +231,23 @@ public class levelGeneratorScript : MonoBehaviour
                             newStartIndex = true;
                         }
                     }
-                    }
+                }
                 else
                 {
-                    Debug.Log("INVALID ROOM, ERROR DETECTED");
-                    Debug.Break();
+                    GameObject tmpA = generatedlevel[generatedlevel.Count - 1];
+                    int newRoom = findNewRoom();
+                    generatedlevel[generatedlevel.Count - 1] = generatedlevel[newRoom];
+                    generatedlevel[newRoom] = tmpA;
+                    _a = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[startIndex].GetComponent<nodeData>();
+                    validRooms = getCompatibleRooms(_a);
                 }
 
             }
             
             
         }
+        waitForRoom = false;
+        yield return null;
     }
     
 
@@ -340,11 +379,12 @@ public class levelGeneratorScript : MonoBehaviour
     {
         generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground");
         generatedlevel[generatedlevel.Count - 2].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground");
+        LayerMask mask = LayerMask.GetMask("roomGenDetection");
         if (Physics.CheckBox(
                 generatedlevel[generatedlevel.Count - 1].GetComponent<MeshCollider>().bounds.center,
                 generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size, 
                 generatedlevel[generatedlevel.Count - 1].transform.rotation, 
-                LayerMask.NameToLayer("roomGenDetection"),
+                mask,
                 QueryTriggerInteraction.Collide)
             )
         {

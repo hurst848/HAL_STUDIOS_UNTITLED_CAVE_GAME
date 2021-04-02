@@ -1476,6 +1476,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 90414871173591860, guid: a26bc55fff712724d8864146d5b02389,
         type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 90414871173591860, guid: a26bc55fff712724d8864146d5b02389,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 8
       objectReference: {fileID: 0}
@@ -1724,7 +1729,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1883063116}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1853,7 +1858,7 @@ GameObject:
   - component: {fileID: 1964497438}
   - component: {fileID: 1964497437}
   - component: {fileID: 1964497436}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

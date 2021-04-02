@@ -11,10 +11,11 @@ public class testColliderThingy : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         gameObject.layer = LayerMask.NameToLayer("Ground");
-        if (Physics.CheckBox(GetComponent<BoxCollider>().bounds.center, transform.GetComponent<BoxCollider>().size, transform.rotation, LayerMask.NameToLayer("roomGenDetection"), QueryTriggerInteraction.Collide))
+        LayerMask mask = LayerMask.GetMask("roomGenDetection");
+        if (Physics.CheckBox(GetComponent<BoxCollider>().bounds.center, transform.GetComponent<BoxCollider>().size, transform.rotation, mask, QueryTriggerInteraction.Collide))
         {
             Debug.Log("INTERSECTING");
             gameObject.layer = LayerMask.NameToLayer("roomGenDetection");
