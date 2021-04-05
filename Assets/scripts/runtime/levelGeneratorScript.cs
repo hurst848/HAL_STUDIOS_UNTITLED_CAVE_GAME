@@ -29,6 +29,8 @@ public class levelGeneratorScript : MonoBehaviour
 
     public List<GameObject> rooms;
 
+    public List<GameObject> offShootRooms;
+
     public string seed;
 
     public int magnitude = 100;
@@ -46,6 +48,9 @@ public class levelGeneratorScript : MonoBehaviour
     private bool pollIntersection = false;
     private int numIntersections = 0;
     private LayerMask mask;
+
+    private GameObject nodeChecker;
+    private bool useNodeChecker = false;
 
     private bool waitForRoom = false;
 
@@ -88,10 +93,23 @@ public class levelGeneratorScript : MonoBehaviour
                 numIntersections++;
             }
         }
+        else if (useNodeChecker)
+        {
+            // if pool intersection is true, check to see if the new room will intersect until made false
+            Vector3 boxCentre = nodeChecker.transform.GetChild(0).GetComponent<BoxCollider>().bounds.center;// + new Vector3(0, 0.15f, 0);
+            if (Physics.CheckBox(boxCentre,
+                nodeChecker.transform.GetChild(0).GetComponent<BoxCollider>().size * 0.1f,
+                nodeChecker.transform.rotation,
+                mask, QueryTriggerInteraction.Collide))
+            {
+                numIntersections++;
+            }
+        }
         else
         {
-            numIntersections = 0;        
+            numIntersections = 0;
         }
+
 
     }
 
@@ -114,6 +132,8 @@ public class levelGeneratorScript : MonoBehaviour
                 yield return new WaitForSeconds(0.01f); 
             }
         }
+        StartCoroutine(generateEndingRoom());
+        Debug.Log("main level generated");
         Debug.Log("LEVEL GENERATED Y'ALL");
         yield return null;
     }
@@ -130,8 +150,8 @@ public class levelGeneratorScript : MonoBehaviour
             generatedlevel[generatedlevel.Count - 1] = generatedlevel[newRoom];
             generatedlevel[newRoom] = tmpA;
         }
-
         int startIndex = Random.Range(0, generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes.Count - 1);
+        //int startIndex = validStartIndicies[Random.Range(0, validStartIndicies.Count - 1)];
         nodeData _a = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[startIndex].GetComponent<nodeData>();
         List<int> usedIndicies = new List<int>();
 
@@ -172,11 +192,11 @@ public class levelGeneratorScript : MonoBehaviour
                     (_a.gameObject.transform.position.y - _b.transform.position.y),
                     (_a.gameObject.transform.position.z - _b.transform.position.z));
                    
-
+                    //poll intersection
                     generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground");
                     generatedlevel[generatedlevel.Count - 2].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground");
                     pollIntersection = true;
-                    yield return new WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(0.1f / 2);
                     // check if the new room intersects with any nearby rooms
                     if (numIntersections > 0)
                     {
@@ -201,7 +221,7 @@ public class levelGeneratorScript : MonoBehaviour
                     pollIntersection = false;
                     generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("roomGenDetection");
                     generatedlevel[generatedlevel.Count - 2].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("roomGenDetection");
-                    yield return new WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(0.1f / 2);
                 }
             }
 
@@ -267,6 +287,48 @@ public class levelGeneratorScript : MonoBehaviour
         waitForRoom = false;
         yield return null;
     }
+
+    IEnumerator generateEndingRoom()
+    {
+        bool done = false;
+        generatedlevel.Add(Instantiate(rooms[1], hostObject.transform));
+        GameObject _b = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[0];
+        for (int i = generatedlevel.Count - 2; i >= 0; i--)
+        {
+            for (int j = 0; j < generatedlevel[i].GetComponent<roomData>().listOfNodes.Count; j++)
+            {
+                nodeData _a = generatedlevel[i].GetComponent<roomData>().listOfNodes[j].GetComponent<nodeData>();
+
+                float rotDiff = (((_a.gameObject.transform.rotation.eulerAngles.y - 180) + 360) % 360) - (((_b.gameObject.transform.rotation.eulerAngles.y) + 360) % 360);
+                generatedlevel[generatedlevel.Count - 1].transform.Rotate(transform.eulerAngles.x, transform.eulerAngles.y + rotDiff, transform.eulerAngles.z);
+
+                // move the room to the correct position
+                generatedlevel[generatedlevel.Count - 1].transform.position += new Vector3(
+                (_a.gameObject.transform.position.x - _b.transform.position.x),
+                (_a.gameObject.transform.position.y - _b.transform.position.y),
+                (_a.gameObject.transform.position.z - _b.transform.position.z));
+
+                //poll intersection
+                generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground");
+                generatedlevel[i].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground");
+                pollIntersection = true;
+                yield return new WaitForSeconds(0.1f / 2);
+                // check if the new room intersects with any nearby rooms
+                if (!(numIntersections > 0))
+                {
+                    done = true;
+                }
+                pollIntersection = false;
+                generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("roomGenDetection");
+                generatedlevel[i].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("roomGenDetection");
+                yield return new WaitForSeconds(0.1f / 2);
+                if (done) { break; }
+            }
+            if (done) { break; }
+        }
+
+        yield return null;
+    }
     
     private List<int> isRoomCompatible(nodeData _a, GameObject _room)
     {
@@ -282,6 +344,8 @@ public class levelGeneratorScript : MonoBehaviour
 
         return validIndicies;
     }
+
+
 
     private bool isNodeCompatible(nodeData _a, nodeData _b)
     {
@@ -361,4 +425,6 @@ public class levelGeneratorScript : MonoBehaviour
 
         return rtrn;
     }
+
+   
 }
