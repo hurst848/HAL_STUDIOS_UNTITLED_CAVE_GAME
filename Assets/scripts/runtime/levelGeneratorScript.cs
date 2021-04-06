@@ -6,10 +6,14 @@ using UnityEngine.AI;
 public class levelGeneratorScript : MonoBehaviour
 {
     /*
-     *  INDEX REFERENCE:
+     *  ROOMS INDEX REFERENCE:
      *      - this is the reference for the rooms and segments lists
      *      - index 0 is reserved for the starting room
      *      - index 1 is reserved for the end room
+     *      - index 2 is a cap room
+     *      
+     *  OFFSHOOT ROOM INDEX:
+     *      - TBD
      */
 
 
@@ -23,26 +27,26 @@ public class levelGeneratorScript : MonoBehaviour
      * 
      */
 
-
-
-
-
     public List<GameObject> rooms;
 
     public List<GameObject> offShootRooms;
+
+    public GameObject doorBlock;
 
     public string seed;
 
     public int magnitude = 100;
 
+    public int offshootMaximumMagnitude = 10;
+
     private bool levelGenerated = false;
 
     private List<GameObject> generatedlevel = new List<GameObject>();
-
+    [HideInInspector]
     public bool generateLevell = false;
 
     public NavMeshSurface surface;
-
+    [HideInInspector]
     public GameObject hostObject;
 
     private bool pollIntersection = false;
@@ -329,6 +333,70 @@ public class levelGeneratorScript : MonoBehaviour
 
         yield return null;
     }
+
+    IEnumerator generateOffshootPaths()
+    {
+        List<GameObject> offshootOriginRooms = getRemainingRooms();
+
+        for (int i =0; i < offshootOriginRooms.Count; i++)
+        {
+            for (int nd = 0; nd < offshootOriginRooms[i].GetComponent<roomData>().listOfNodes.Count; nd++)
+            {
+                // initial pass to remove / block off any nodes that cant have expanding paths
+                GameObject testBox = Instantiate(rooms[2]);
+                float rotDiff = (((offshootOriginRooms[i].GetComponent<roomData>().listOfNodes[nd].gameObject.transform.rotation.eulerAngles.y - 180) + 360) % 360) - (((testBox.gameObject.transform.rotation.eulerAngles.y) + 360) % 360);
+                testBox.transform.Rotate(transform.eulerAngles.x, transform.eulerAngles.y + rotDiff, transform.eulerAngles.z);
+
+                testBox.transform.position += new Vector3(
+                    (offshootOriginRooms[i].GetComponent<roomData>().listOfNodes[nd].gameObject.transform.position.x - testBox.transform.position.x),
+                    (offshootOriginRooms[i].GetComponent<roomData>().listOfNodes[nd].gameObject.transform.position.y - testBox.transform.position.y),
+                    (offshootOriginRooms[i].GetComponent<roomData>().listOfNodes[nd].gameObject.transform.position.z - testBox.transform.position.z));
+                
+                offshootOriginRooms[i].layer = LayerMask.NameToLayer("Ground");
+                testBox.layer = LayerMask.NameToLayer("Ground");
+                nodeChecker = testBox;
+                useNodeChecker = true;
+                yield return new WaitForSeconds(0.1f / 2);
+                if (numIntersections > 0)
+                {
+                    generatedlevel.Add(Instantiate(doorBlock, hostObject.transform));
+                    
+                    GameObject _b = generatedlevel[generatedlevel.Count - 1];
+                    GameObject _a = offshootOriginRooms[i].GetComponent<roomData>().listOfNodes[nd];
+
+                    float rotDiffb = (((_a.gameObject.transform.rotation.eulerAngles.y - 180) + 360) % 360) - (((_b.gameObject.transform.rotation.eulerAngles.y) + 360) % 360);
+                    generatedlevel[generatedlevel.Count - 1].transform.Rotate(transform.eulerAngles.x, transform.eulerAngles.y + rotDiffb, transform.eulerAngles.z);
+
+                    // move the room to the correct position
+                    generatedlevel[generatedlevel.Count - 1].transform.position += new Vector3(
+                    (_a.gameObject.transform.position.x - _b.transform.position.x),
+                    (_a.gameObject.transform.position.y - _b.transform.position.y),
+                    (_a.gameObject.transform.position.z - _b.transform.position.z));
+
+                    offshootOriginRooms[i].GetComponent<roomData>().listOfNodes.RemoveAt(nd);
+                    Destroy(_a);
+                }
+                useNodeChecker = false;
+                offshootOriginRooms[i].layer = LayerMask.NameToLayer("roomGenDetection");
+                Destroy(testBox);
+                yield return new WaitForSeconds(0.1f / 2);
+
+            }
+        }
+
+        // update the list of remaining rooms with the plugged ones removed 
+        offshootOriginRooms = getRemainingRooms();
+        for (int i = 0; i < offshootOriginRooms.Count; i++)
+        {
+            for (int node = 0; node < offshootOriginRooms[i].GetComponent<roomData>().listOfNodes.Count; node++)
+            {
+                
+            }
+        }
+
+
+        yield return null;
+    }
     
     private List<int> isRoomCompatible(nodeData _a, GameObject _room)
     {
@@ -344,8 +412,6 @@ public class levelGeneratorScript : MonoBehaviour
 
         return validIndicies;
     }
-
-
 
     private bool isNodeCompatible(nodeData _a, nodeData _b)
     {
@@ -426,5 +492,39 @@ public class levelGeneratorScript : MonoBehaviour
         return rtrn;
     }
 
+    private List<GameObject> getRemainingRooms()
+    {
+        List<GameObject> rtrn = new List<GameObject>();
+
+        for (int i = 0; i < generatedlevel.Count; i++)
+        {
+            rtrn.Add(generatedlevel[i]);
+        }
+
+        return rtrn;
+    }
+
+    private List<GameObject> shuffleOffshootRooms()
+    {
+        List<GameObject> rtrn = offShootRooms;
+        for (int i =0; i < rtrn.Count; i++)
+        {
+            int swapIndex = -1;
+            while (swapIndex == i || swapIndex == -1)
+            {
+                swapIndex = Random.Range(0, rtrn.Count - 1);
+            }
+
+            GameObject tmp = rtrn[i];
+            rtrn[i] = rtrn[swapIndex];
+            rtrn[swapIndex] = tmp;
+    
+        }
+        return rtrn;
+    }
    
+    private void purgeNodes()
+    {
+        
+    }
 }

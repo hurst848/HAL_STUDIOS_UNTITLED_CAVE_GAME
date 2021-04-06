@@ -2124,6 +2124,11 @@ PrefabInstance:
       objectReference: {fileID: 1633114000}
     - target: {fileID: 4385244736025696674, guid: 91f2809900b7a9e4aa65a8f480b3bc96,
         type: 3}
+      propertyPath: doorBlock
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385244736025696674, guid: 91f2809900b7a9e4aa65a8f480b3bc96,
+        type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -2232,6 +2237,59 @@ PrefabInstance:
       propertyPath: rooms.Array.data[15]
       value: 
       objectReference: {fileID: 4844087062184197736, guid: 9ce6fb0a82d4e7a4584ad3b1008658bc,
+        type: 3}
+    - target: {fileID: 4385244736025696674, guid: 91f2809900b7a9e4aa65a8f480b3bc96,
+        type: 3}
+      propertyPath: offShootRooms.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385244736025696674, guid: 91f2809900b7a9e4aa65a8f480b3bc96,
+        type: 3}
+      propertyPath: offShootRooms.Array.data[0]
+      value: 
+      objectReference: {fileID: 2055205647337424021, guid: 04c4982df69ac644594f08efc8db430d,
+        type: 3}
+    - target: {fileID: 4385244736025696674, guid: 91f2809900b7a9e4aa65a8f480b3bc96,
+        type: 3}
+      propertyPath: offShootRooms.Array.data[1]
+      value: 
+      objectReference: {fileID: 1155170061942080728, guid: ef655df767f16424390951fb147f984e,
+        type: 3}
+    - target: {fileID: 4385244736025696674, guid: 91f2809900b7a9e4aa65a8f480b3bc96,
+        type: 3}
+      propertyPath: offShootRooms.Array.data[2]
+      value: 
+      objectReference: {fileID: 8992839877415767021, guid: a26bc55fff712724d8864146d5b02389,
+        type: 3}
+    - target: {fileID: 4385244736025696674, guid: 91f2809900b7a9e4aa65a8f480b3bc96,
+        type: 3}
+      propertyPath: offShootRooms.Array.data[3]
+      value: 
+      objectReference: {fileID: 2794747889641550297, guid: a9266802d09addf4a985c460f065a704,
+        type: 3}
+    - target: {fileID: 4385244736025696674, guid: 91f2809900b7a9e4aa65a8f480b3bc96,
+        type: 3}
+      propertyPath: offShootRooms.Array.data[4]
+      value: 
+      objectReference: {fileID: 7562025203008293353, guid: aaad05b8c790d684aa9340618a0b4775,
+        type: 3}
+    - target: {fileID: 4385244736025696674, guid: 91f2809900b7a9e4aa65a8f480b3bc96,
+        type: 3}
+      propertyPath: offShootRooms.Array.data[5]
+      value: 
+      objectReference: {fileID: 6019700417441511358, guid: 04e6cb311c5e88a47b3ed4347ce70b30,
+        type: 3}
+    - target: {fileID: 4385244736025696674, guid: 91f2809900b7a9e4aa65a8f480b3bc96,
+        type: 3}
+      propertyPath: offShootRooms.Array.data[6]
+      value: 
+      objectReference: {fileID: 6713015701851407255, guid: cb18b0d7b0379c14fa70c74ab58f29a1,
+        type: 3}
+    - target: {fileID: 4385244736025696674, guid: 91f2809900b7a9e4aa65a8f480b3bc96,
+        type: 3}
+      propertyPath: offShootRooms.Array.data[7]
+      value: 
+      objectReference: {fileID: 6642631930430989472, guid: a023e37a6f0f21d44abc823cd691fcf6,
         type: 3}
     - target: {fileID: 8623751507833346169, guid: 91f2809900b7a9e4aa65a8f480b3bc96,
         type: 3}
