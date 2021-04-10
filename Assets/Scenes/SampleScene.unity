@@ -1718,7 +1718,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1883063115
 GameObject:
@@ -1749,7 +1749,7 @@ Transform:
   m_Children:
   - {fileID: 1964497435}
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1907344344
 PrefabInstance:
@@ -2126,7 +2126,8 @@ PrefabInstance:
         type: 3}
       propertyPath: doorBlock
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1785201265094705004, guid: d18e47dc04cdf4f4ea14806ae8c3a04c,
+        type: 3}
     - target: {fileID: 4385244736025696674, guid: 91f2809900b7a9e4aa65a8f480b3bc96,
         type: 3}
       propertyPath: m_Enabled

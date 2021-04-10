@@ -29,15 +29,11 @@ public class levelGeneratorScript : MonoBehaviour
 
     public List<GameObject> rooms;
 
-    public List<GameObject> offShootRooms;
-
     public GameObject doorBlock;
 
     public string seed;
 
     public int magnitude = 100;
-
-    public int offshootMaximumMagnitude = 10;
 
     private bool levelGenerated = false;
 
@@ -57,6 +53,7 @@ public class levelGeneratorScript : MonoBehaviour
     private bool useNodeChecker = false;
 
     private bool waitForRoom = false;
+    private float intersectionMagnitudeFactor = 0.25f;
 
     private void Start()
     {
@@ -89,8 +86,8 @@ public class levelGeneratorScript : MonoBehaviour
         {
             // if pool intersection is true, check to see if the new room will intersect until made false
             Vector3 boxCentre = generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().bounds.center;// + new Vector3(0, 0.15f, 0);
-            if (Physics.CheckBox(boxCentre, 
-                generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size * 0.25f, 
+            if (Physics.CheckBox(boxCentre,
+                generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size * intersectionMagnitudeFactor, 
                 generatedlevel[generatedlevel.Count - 1].transform.rotation,
                 mask, QueryTriggerInteraction.Collide))
             {
@@ -137,6 +134,7 @@ public class levelGeneratorScript : MonoBehaviour
             }
         }
         StartCoroutine(generateEndingRoom());
+        StartCoroutine(realgenerateOffshootPaths());
         Debug.Log("main level generated");
         Debug.Log("LEVEL GENERATED Y'ALL");
         yield return null;
@@ -334,70 +332,61 @@ public class levelGeneratorScript : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator generateOffshootPaths()
+
+    IEnumerator realgenerateOffshootPaths()
     {
-        List<GameObject> offshootOriginRooms = getRemainingRooms();
-
-        for (int i =0; i < offshootOriginRooms.Count; i++)
+        intersectionMagnitudeFactor = 0.75f;
+        List<GameObject> roomsToBeChecked = getRemainingRooms();
+        for (int i = 0; i < roomsToBeChecked.Count; i++)
         {
-            for (int nd = 0; nd < offshootOriginRooms[i].GetComponent<roomData>().listOfNodes.Count; nd++)
+            for (int j = 0; j < generatedlevel[i].GetComponent<roomData>().listOfNodes.Count; j++)
             {
-                // initial pass to remove / block off any nodes that cant have expanding paths
-                GameObject testBox = Instantiate(rooms[2]);
-                float rotDiff = (((offshootOriginRooms[i].GetComponent<roomData>().listOfNodes[nd].gameObject.transform.rotation.eulerAngles.y - 180) + 360) % 360) - (((testBox.gameObject.transform.rotation.eulerAngles.y) + 360) % 360);
-                testBox.transform.Rotate(transform.eulerAngles.x, transform.eulerAngles.y + rotDiff, transform.eulerAngles.z);
-
-                testBox.transform.position += new Vector3(
-                    (offshootOriginRooms[i].GetComponent<roomData>().listOfNodes[nd].gameObject.transform.position.x - testBox.transform.position.x),
-                    (offshootOriginRooms[i].GetComponent<roomData>().listOfNodes[nd].gameObject.transform.position.y - testBox.transform.position.y),
-                    (offshootOriginRooms[i].GetComponent<roomData>().listOfNodes[nd].gameObject.transform.position.z - testBox.transform.position.z));
+                generatedlevel.Add(Instantiate(rooms[2], hostObject.transform));
+                GameObject _b = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[0];
+                nodeData _a = generatedlevel[i].GetComponent<roomData>().listOfNodes[j].GetComponent<nodeData>();
                 
-                offshootOriginRooms[i].layer = LayerMask.NameToLayer("Ground");
-                testBox.layer = LayerMask.NameToLayer("Ground");
-                nodeChecker = testBox;
-                useNodeChecker = true;
+                float rotDiff = (((_a.gameObject.transform.rotation.eulerAngles.y - 180) + 360) % 360) - (((_b.gameObject.transform.rotation.eulerAngles.y) + 360) % 360);
+                generatedlevel[generatedlevel.Count - 1].transform.Rotate(transform.eulerAngles.x, transform.eulerAngles.y + rotDiff, transform.eulerAngles.z);
+                
+                generatedlevel[generatedlevel.Count - 1].transform.position += new Vector3(
+                    (_a.gameObject.transform.position.x - _b.transform.position.x),
+                    (_a.gameObject.transform.position.y - _b.transform.position.y),
+                    (_a.gameObject.transform.position.z - _b.transform.position.z));
+
+                generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground");
+                generatedlevel[i].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground");
+                
+                pollIntersection = true;
                 yield return new WaitForSeconds(0.1f / 2);
                 if (numIntersections > 0)
                 {
+                    GameObject tbr = generatedlevel[generatedlevel.Count - 1];
+                    generatedlevel.RemoveAt(generatedlevel.Count - 1);
+                    Destroy(tbr);
+
                     generatedlevel.Add(Instantiate(doorBlock, hostObject.transform));
+                    _b = generatedlevel[generatedlevel.Count - 1];
                     
-                    GameObject _b = generatedlevel[generatedlevel.Count - 1];
-                    GameObject _a = offshootOriginRooms[i].GetComponent<roomData>().listOfNodes[nd];
+                    rotDiff = (((_a.gameObject.transform.rotation.eulerAngles.y - 180) + 360) % 360) - (((_b.gameObject.transform.rotation.eulerAngles.y) + 360) % 360);
+                    generatedlevel[generatedlevel.Count - 1].transform.Rotate(transform.eulerAngles.x, transform.eulerAngles.y + rotDiff, transform.eulerAngles.z);
 
-                    float rotDiffb = (((_a.gameObject.transform.rotation.eulerAngles.y - 180) + 360) % 360) - (((_b.gameObject.transform.rotation.eulerAngles.y) + 360) % 360);
-                    generatedlevel[generatedlevel.Count - 1].transform.Rotate(transform.eulerAngles.x, transform.eulerAngles.y + rotDiffb, transform.eulerAngles.z);
-
-                    // move the room to the correct position
                     generatedlevel[generatedlevel.Count - 1].transform.position += new Vector3(
                     (_a.gameObject.transform.position.x - _b.transform.position.x),
                     (_a.gameObject.transform.position.y - _b.transform.position.y),
                     (_a.gameObject.transform.position.z - _b.transform.position.z));
 
-                    offshootOriginRooms[i].GetComponent<roomData>().listOfNodes.RemoveAt(nd);
-                    Destroy(_a);
                 }
-                useNodeChecker = false;
-                offshootOriginRooms[i].layer = LayerMask.NameToLayer("roomGenDetection");
-                Destroy(testBox);
+                                
+                pollIntersection = false;
                 yield return new WaitForSeconds(0.1f / 2);
 
             }
         }
-
-        // update the list of remaining rooms with the plugged ones removed 
-        offshootOriginRooms = getRemainingRooms();
-        for (int i = 0; i < offshootOriginRooms.Count; i++)
-        {
-            for (int node = 0; node < offshootOriginRooms[i].GetComponent<roomData>().listOfNodes.Count; node++)
-            {
-                
-            }
-        }
-
-
+        intersectionMagnitudeFactor = 0.25f;
         yield return null;
     }
     
+
     private List<int> isRoomCompatible(nodeData _a, GameObject _room)
     {
         List<int> validIndicies = new List<int>();
@@ -498,33 +487,86 @@ public class levelGeneratorScript : MonoBehaviour
 
         for (int i = 0; i < generatedlevel.Count; i++)
         {
-            rtrn.Add(generatedlevel[i]);
+            rtrn.Add(generatedlevel[i]); 
         }
 
         return rtrn;
     }
 
-    private List<GameObject> shuffleOffshootRooms()
-    {
-        List<GameObject> rtrn = offShootRooms;
-        for (int i =0; i < rtrn.Count; i++)
-        {
-            int swapIndex = -1;
-            while (swapIndex == i || swapIndex == -1)
-            {
-                swapIndex = Random.Range(0, rtrn.Count - 1);
-            }
-
-            GameObject tmp = rtrn[i];
-            rtrn[i] = rtrn[swapIndex];
-            rtrn[swapIndex] = tmp;
-    
-        }
-        return rtrn;
-    }
    
     private void purgeNodes()
     {
-        
+        List<List<int>> indiciesToBeRemoved = new List<List<int>>();
+        for (int i = 0; i< generatedlevel.Count; i++)
+        {
+            indiciesToBeRemoved.Add(new List<int>());
+        }
+
+
+        for (int roomA = 0; roomA < generatedlevel.Count; roomA++)
+        {
+            GameObject _a = generatedlevel[roomA];
+            for (int roomB = 0; roomB < generatedlevel.Count; roomB++)
+            {
+                GameObject _b = generatedlevel[roomB];
+                if (_a.GetComponent<roomData>().listOfNodes.Count <= 0 || _b.GetComponent<roomData>().listOfNodes.Count <= 0)
+                {
+                    roomB = generatedlevel.Count;
+                }
+                else
+                {
+                    for (int aNode = 0; aNode < _a.GetComponent<roomData>().listOfNodes.Count; aNode++)
+                    {
+                        GameObject nodeA = _a.GetComponent<roomData>().listOfNodes[aNode];
+                        for (int bNode = 0; bNode < _b.GetComponent<roomData>().listOfNodes.Count; bNode++)
+                        {
+                            GameObject nodeB = _b.GetComponent<roomData>().listOfNodes[bNode];
+                            if (Vector3.Distance(nodeA.transform.position, nodeB.transform.position) < 0.1f)
+                            {
+                                if (!(indiciesToBeRemoved[roomA].Contains(aNode)))
+                                {
+                                    indiciesToBeRemoved[roomA].Add(aNode);
+                                }
+                                if (!(indiciesToBeRemoved[roomB].Contains(bNode)))
+                                {
+                                    indiciesToBeRemoved[roomB].Add(bNode);
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+        Debug.Log("ROOMS WITH NODES TO BE PURGED: " + indiciesToBeRemoved.Count);
+        for (int i =0; i < indiciesToBeRemoved.Count; i++)
+        {
+            if (indiciesToBeRemoved[i].Count > 1)
+            {
+                List<GameObject> ltbr = new List<GameObject>();
+                for (int j = 0; j < indiciesToBeRemoved[i].Count; j++)
+                {
+                    ltbr.Add(generatedlevel[i].GetComponent<roomData>().listOfNodes[indiciesToBeRemoved[i][j]]);
+                }
+                for (int j = 0; j < indiciesToBeRemoved[i].Count; j++)
+                {
+                    generatedlevel[i].GetComponent<roomData>().listOfNodes.RemoveAt(indiciesToBeRemoved[i][j]);
+                }
+                while (ltbr.Count != 0)
+                {
+                    Debug.Log("NODE PURGED");
+                    GameObject tbr = ltbr[0];
+                    ltbr.RemoveAt(0);
+                    Destroy(tbr);
+                }
+            }
+            else if (indiciesToBeRemoved[i].Count == 1)
+            {
+                Debug.Log("NODE PURGED");
+                GameObject tbr = generatedlevel[i].GetComponent<roomData>().listOfNodes[0];
+                generatedlevel[i].GetComponent<roomData>().listOfNodes.RemoveAt(0);
+                Destroy(tbr);
+            }
+        }
     }
 }
