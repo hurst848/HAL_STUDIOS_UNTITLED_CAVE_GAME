@@ -54,7 +54,7 @@ public class lightDetector : MonoBehaviour
             }
             if (lightFound) { break; }
         }
-
+       
         return target;
     }
 

@@ -60,6 +60,7 @@ public class levelGeneratorScript : MonoBehaviour
         mask = LayerMask.GetMask("roomGenDetection");
         hostObject = new GameObject();
         generatedlevel.Add(Instantiate(rooms[0], hostObject.transform));
+        
     }
 
 
@@ -383,7 +384,11 @@ public class levelGeneratorScript : MonoBehaviour
             }
         }
         intersectionMagnitudeFactor = 0.25f;
+        surface.BuildNavMesh();
+
+       
         yield return null;
+        
     }
     
 
