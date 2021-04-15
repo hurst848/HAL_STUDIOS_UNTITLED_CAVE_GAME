@@ -96,6 +96,7 @@ public class soundDetector : MonoBehaviour
     private float calulateSoundValue(Collision _c)
     {
         AudioSource source = _c.gameObject.GetComponent<AudioSource>();
+        
         return source.volume / Mathf.Abs(Vector3.Distance(_c.gameObject.transform.position, transform.position));
     }
 }

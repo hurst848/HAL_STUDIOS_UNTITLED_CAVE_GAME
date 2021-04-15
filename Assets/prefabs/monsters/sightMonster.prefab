@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4203835021616622876}
   - component: {fileID: 8022446654643711616}
-  - component: {fileID: 8673780889080201337}
   m_Layer: 0
   m_Name: sightMonster
   m_TagString: Enemy
@@ -56,30 +55,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8673780889080201337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4213858953629002761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34810a17089ff0546aa13c65c215d676, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewRadius: 0
-  viewAngle: 0
-  walkSpeed: 1.5
-  runSpeed: 3
-  target:
-    serializedVersion: 2
-    m_Bits: 256
-  obstacle:
-    serializedVersion: 2
-    m_Bits: 1025
-  pathing: {fileID: 8022446654643711616}
-  monsterIsAlive: 1
 --- !u!1 &6839691662207175508
 GameObject:
   m_ObjectHideFlags: 0

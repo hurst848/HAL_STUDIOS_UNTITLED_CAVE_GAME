@@ -16,6 +16,9 @@ public class audioOutputController : MonoBehaviour
     // how far away the sound can be heard and detected
     public float maximumListeningDistance;
 
+    // the relative volume to the monster, the higher it is the lowder the monster will percive it
+    public float monsterVolume;
+
     // how long it will take take the collider to turn off after the sound plays
     public float clipFade;
     
