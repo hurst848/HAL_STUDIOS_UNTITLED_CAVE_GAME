@@ -736,7 +736,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &646442823
 Transform:
   m_ObjectHideFlags: 0
@@ -1931,6 +1931,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2218633806912249265, guid: df5993b11035a59458a34a21646e3d96,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3916290669364171795, guid: df5993b11035a59458a34a21646e3d96,
         type: 3}
       propertyPath: monsterAlive
@@ -1969,7 +1974,7 @@ PrefabInstance:
     - target: {fileID: 4577961224918905234, guid: df5993b11035a59458a34a21646e3d96,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.01
+      value: 1.479
       objectReference: {fileID: 0}
     - target: {fileID: 4577961224918905234, guid: df5993b11035a59458a34a21646e3d96,
         type: 3}
@@ -2024,9 +2029,10 @@ PrefabInstance:
     - target: {fileID: 8979303246702356192, guid: df5993b11035a59458a34a21646e3d96,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4663133286482559157, guid: df5993b11035a59458a34a21646e3d96, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: df5993b11035a59458a34a21646e3d96, type: 3}
 --- !u!1 &1883063115
 GameObject:

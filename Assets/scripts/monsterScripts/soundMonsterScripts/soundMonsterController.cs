@@ -64,6 +64,7 @@ public class soundMonsterController : MonoBehaviour
         {
             // get all valid sound sources
             possibleTargets.Clear();
+            target = null;
             Collider[] targetsWithinRange = Physics.OverlapSphere(transform.position, hearingRadius, targetMask);
             for (int i = 0; i < targetsWithinRange.Length; i++)
             {
