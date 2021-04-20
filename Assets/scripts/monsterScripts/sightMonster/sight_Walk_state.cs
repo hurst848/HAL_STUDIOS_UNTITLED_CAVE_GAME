@@ -25,7 +25,7 @@ public class sight_Walk_state : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (monster.GetComponent<soundMonsterController>().target != null)
+        if (monster.GetComponent<sightMonsterController>().target != null)
         {
             animator.SetTrigger("run");
         }

@@ -38,6 +38,8 @@ public class soundMonsterController : MonoBehaviour
     private Animator animator;
 
     [HideInInspector] public Transform playerLoc;
+    [HideInInspector] public bool isAttacking = false;
+    [HideInInspector] public GameObject attackTarget = null;
 
     // Start is called before the first frame update
     void Start()
@@ -50,9 +52,36 @@ public class soundMonsterController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Vector3.Distance(transform.position, playerLoc.position) <= attackProximityThreshold)
+        if (!isAttacking)
         {
-            animator.SetTrigger("attack");
+            if (Vector3.Distance(transform.position, playerLoc.position) <= attackProximityThreshold)
+            {
+                isAttacking = true;
+                animator.SetTrigger("attack");
+            }
+            else
+            {
+                Collider[] listOfSoundTargets = Physics.OverlapSphere(transform.position, hearingRadius, targetMask);
+                int indexOfClosest = 0;
+                float valueOfClosest = float.MaxValue;
+                for (int i = 0; i < listOfSoundTargets.Length; i++)
+                {
+                    if (listOfSoundTargets[i].tag == "sound")
+                    {
+                        if (Vector3.Distance(transform.position, listOfSoundTargets[i].transform.position) < valueOfClosest)
+                        {
+                            indexOfClosest = i;
+                            valueOfClosest = Vector3.Distance(transform.position, listOfSoundTargets[i].transform.position);
+                        }
+                    }
+                }
+                if (valueOfClosest <= attackProximityThreshold)
+                {
+                    isAttacking = true;
+                    attackTarget = listOfSoundTargets[indexOfClosest].gameObject;
+                    animator.SetTrigger("attack");
+                }  
+            }
         }
     }
 
