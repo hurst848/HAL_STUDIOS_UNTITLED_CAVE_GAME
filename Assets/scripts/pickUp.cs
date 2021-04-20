@@ -5,18 +5,18 @@ using UnityEngine;
 public class pickUp : MonoBehaviour
 {
 
-    public GameObject pickUpPosition;
+    public Transform pickUpPosition;
 
-
-    // Start is called before the first frame update
-    void Start()
+    void OnMouseOver()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        //Debug.Log("Press E to pickup");
+        if (Input.GetKeyDown("e"))
+        {
+            Debug.Log("Picked up item");
+            GetComponent<Rigidbody>().useGravity = false;
+            this.transform.position = pickUpPosition.transform.position;
+            this.transform.rotation = pickUpPosition.transform.rotation;
+            this.transform.parent = GameObject.Find("pickUp").transform;
+        }
+    } 
 }
