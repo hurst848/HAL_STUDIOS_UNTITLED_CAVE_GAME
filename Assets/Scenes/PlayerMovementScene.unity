@@ -2093,7 +2093,7 @@ Transform:
   m_LocalScale: {x: 10, y: 1, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1345624002
 GameObject:
@@ -2805,8 +2805,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 13400000, guid: 6ae6f44cd2f23b448aeb4344044031f1,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3511800259767491363, guid: 3ac0603623c63ba4a9d45c972b74e658,
         type: 3}
       propertyPath: m_Name
@@ -2884,12 +2883,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3511800259767491365, guid: 3ac0603623c63ba4a9d45c972b74e658,
         type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511800259767491365, guid: 3ac0603623c63ba4a9d45c972b74e658,
+        type: 3}
       propertyPath: m_UseGravity
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3511800259767491365, guid: 3ac0603623c63ba4a9d45c972b74e658,
         type: 3}
       propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511800259767491365, guid: 3ac0603623c63ba4a9d45c972b74e658,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511800259767491365, guid: 3ac0603623c63ba4a9d45c972b74e658,
+        type: 3}
+      propertyPath: m_IsKinematic
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3511800259767491365, guid: 3ac0603623c63ba4a9d45c972b74e658,
@@ -2995,7 +3009,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1852627114
 GameObject:
