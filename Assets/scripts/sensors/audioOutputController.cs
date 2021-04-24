@@ -43,11 +43,8 @@ public class audioOutputController : MonoBehaviour
         // enable the detection range and play the clip
         detectionRange.enabled = true;
         speaker.Play();
-        
-        while (speaker.isPlaying)
-        {
-            // wait for the clip to finish playing
-        }
+
+        yield return new WaitForSeconds(speaker.clip.length);
         
         // wait an amount of time to simmulate the traveling of sound
         yield return new WaitForSeconds(clipFade);
