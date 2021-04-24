@@ -22,80 +22,82 @@ public class cameraController : MonoBehaviour
     private bool isCrouching = false;
 
     public audioOutputController footstepEmmision;
+    public audioOutputController mouthEmmision;
 
-
+    public List<AudioClip> painNoises; 
       
 
 
     void Start()
     {
-        
+        // assign varibles
         _rigidbody = GetComponent<Rigidbody>();
         _collider = GetComponent<CapsuleCollider>();
+        
+        // start variouse sound coroutines
         StartCoroutine(footSteps());
+        StartCoroutine(painNoiseController());
     }
 
     void Update()
     {
-        if (canSprint)
+        if (canMove)
         {
-            // Check if shift is being held
-            if (Input.GetKey(KeyCode.LeftShift)) { isSprinting = true; }
-            else { isSprinting = false; }
-
-        }
-        // Check if crouch is available
-        if (canCrouch)
-        {
-            // Check if control is being held
-            if (Input.GetKey(KeyCode.LeftControl)) { isCrouching = true; }
-            else { isCrouching = false; }
-        }
-        if (isCrouching)
-        {
-            //set height
-            playerHeight = crouchHeight;
-            _collider.height = playerHeight;
-        }
-        else
-        {
-            playerHeight = standHeight;
-            _collider.height = playerHeight;
-        }
-
-        if (canJump)
-        {
-            // Check if control is being held
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (canSprint)
             {
-                _rigidbody.AddForce(Vector3.up * jumpForce * 2);
+                // Check if shift is being held
+                if (Input.GetKey(KeyCode.LeftShift)) { isSprinting = true; }
+                else { isSprinting = false; }
+
             }
+            // Check if crouch is available
+            if (canCrouch)
+            {
+                // Check if control is being held
+                if (Input.GetKey(KeyCode.LeftControl)) { isCrouching = true; }
+                else { isCrouching = false; }
+            }
+            if (isCrouching)
+            {
+                //set height
+                playerHeight = crouchHeight;
+                _collider.height = playerHeight;
+            }
+            else
+            {
+                playerHeight = standHeight;
+                _collider.height = playerHeight;
+            }
+
+            if (canJump)
+            {
+                // Check if control is being held
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    _rigidbody.AddForce(Vector3.up * jumpForce * 2);
+                }
+            }
+
+            float horizontalAxis = Input.GetAxis("Mouse X") * mouseSensitivity;
+            float vertaicalAxis = Mathf.Clamp(Input.GetAxis("Mouse Y") * mouseSensitivity, -85, 85);
+
+
+            float dirX = Input.GetAxis("Horizontal");
+            float dirZ = Input.GetAxis("Vertical");
+
+            transform.Rotate(0, horizontalAxis, 0);
+            playerCamera.transform.Rotate(-vertaicalAxis, 0, 0);
+
+            Vector3 ply = transform.TransformDirection(dirX, 0, dirZ);
+
+
+            if (isSprinting && _rigidbody.velocity.magnitude < runSpeed) { _rigidbody.AddForce(new Vector3(ply.x * runSpeed, 0, ply.z * runSpeed)); }
+            else if (_rigidbody.velocity.magnitude < walkSpeed) { _rigidbody.AddForce(new Vector3(ply.x * walkSpeed, 0, ply.z * walkSpeed)); } 
         }
 
-        float horizontalAxis = Input.GetAxis("Mouse X") * mouseSensitivity;
-        float vertaicalAxis = Mathf.Clamp(Input.GetAxis("Mouse Y") * mouseSensitivity, -85, 85);
-
-
-        float dirX = Input.GetAxis("Horizontal");
-        float dirZ = Input.GetAxis("Vertical") ;
-
-        transform.Rotate(0, horizontalAxis, 0);
-        playerCamera.transform.Rotate(-vertaicalAxis, 0, 0);
-
-        Vector3 ply = transform.TransformDirection(dirX, 0, dirZ);
-
-
-        if (isSprinting && _rigidbody.velocity.magnitude < runSpeed) { _rigidbody.AddForce(new Vector3(ply.x * runSpeed, 0, ply.z * runSpeed)   ); }
-        else if (_rigidbody.velocity.magnitude < walkSpeed) { _rigidbody.AddForce(new Vector3(ply.x * walkSpeed, 0, ply.z * walkSpeed) ); }
-
     }
 
-    private void FixedUpdate()
-    {
-        
-        
 
-    }
 
     void OnCollisionEnter(Collision collision)
     {
@@ -141,7 +143,6 @@ public class cameraController : MonoBehaviour
         {
             if (_rigidbody.velocity.magnitude  > 0.1f && canJump)
             {
-            
                 if (isSprinting)
                 {
                     footstepEmmision.gameObject.GetComponent<AudioSource>().pitch *= 1.5f;
@@ -156,17 +157,37 @@ public class cameraController : MonoBehaviour
                     Debug.Log("WALK SOUNDS");
                     footstepEmmision.triggerSound();
                     yield return new WaitForSeconds(footstepEmmision.gameObject.GetComponent<AudioSource>().clip.length);
-                }
-                
+                }      
             }
             yield return null;
         }
-        Debug.Log("EXIT WALK LOOP");
-
         yield return null;
     }
 
+    IEnumerator painNoiseController()
+    {
+        yield return new WaitForSeconds(3.0f);
 
+        int previouseHP = health.currentHP;
+
+        while (health.currentHP != 0)
+        {
+            if (health.currentHP != previouseHP)
+            {
+                int choise = Random.Range(0, 9) % 2;
+                if (choise == 0) { mouthEmmision.sound = painNoises[0]; } 
+                else { mouthEmmision.sound = painNoises[1]; }
+                mouthEmmision.monsterVolume *= 1.5f;
+                mouthEmmision.triggerSound();
+                yield return new WaitForSeconds(mouthEmmision.gameObject.GetComponent<AudioSource>().clip.length);
+                mouthEmmision.monsterVolume /= 1.5f;
+                previouseHP = health.currentHP;
+            }
+         
+            yield return null;
+        }
+        yield return null;
+    }
 
 
     

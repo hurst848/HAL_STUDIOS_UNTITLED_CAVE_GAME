@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class audioOutputController : MonoBehaviour
 {
+    public bool loop;
     // audio output
     public AudioSource speaker;
     // audio clip to be played
@@ -34,8 +35,18 @@ public class audioOutputController : MonoBehaviour
 
     public void triggerSound()
     {
+        speaker.clip = sound;
         // call and execute simmulateSound()
-        StartCoroutine(simulateSound());
+        if (!loop) 
+        { 
+            StartCoroutine(simulateSound()); 
+        }
+        else 
+        {
+            detectionRange.enabled = true;
+            speaker.loop = true;
+            speaker.Play();
+        }
     }
 
     private IEnumerator simulateSound()
@@ -53,6 +64,7 @@ public class audioOutputController : MonoBehaviour
         detectionRange.enabled = false;
         yield return null;
     }
+
 
 
 
