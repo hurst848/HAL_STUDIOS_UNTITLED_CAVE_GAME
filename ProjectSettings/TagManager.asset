@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Ground
   - roomGenColliderTest
+  - flashlight
   layers:
   - Default
   - TransparentFX

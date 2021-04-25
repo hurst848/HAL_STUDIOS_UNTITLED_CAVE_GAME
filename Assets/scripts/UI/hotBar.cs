@@ -25,6 +25,9 @@ public class hotBar : MonoBehaviour
     public bool isImageFull4;
     public bool isImageFull5;
 
+    string[] items = { "flashlight", "Medkit", "Cobble", "Inhaler" };
+    string[] itemSlots = { "inventoryslot1", "inventoryslot2", "inventoryslot3", "inventoryslot4", "inventoryslot5" };
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,9 +57,12 @@ public class hotBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("e"))
+        for (int i = 0; i < 6; i++)
         {
-
+            if (Input.GetKeyDown("" + i))
+            {
+                Debug.Log(itemSlots[i]);
+            }
         }
     }
 

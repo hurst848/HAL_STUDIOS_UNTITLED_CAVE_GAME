@@ -5,7 +5,11 @@ using UnityEngine;
 public class pickUp : MonoBehaviour
 {
 
+    public GameObject Item;
+
     public Transform pickUpPosition;
+    public static int itemPickedUp;
+
 
     void OnMouseOver()
     {
@@ -17,6 +21,11 @@ public class pickUp : MonoBehaviour
             this.transform.position = pickUpPosition.transform.position;
             this.transform.rotation = pickUpPosition.transform.rotation;
             this.transform.parent = GameObject.Find("pickUp").transform;
+
+            //if(this.GameObject.tag == "flashlight")
+            {
+                Debug.Log("its a flashlight!");
+            }
         }
     } 
 }
