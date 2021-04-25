@@ -60,7 +60,7 @@ public class levelGeneratorScript : MonoBehaviour
         mask = LayerMask.GetMask("roomGenDetection");
         hostObject = new GameObject();
         generatedlevel.Add(Instantiate(rooms[0], hostObject.transform));
-        seed = gameHandler.gameSeed;
+        //seed = gameHandler.gameSeed;
         magnitude = gameHandler.gameMagnitude;
     }
 
