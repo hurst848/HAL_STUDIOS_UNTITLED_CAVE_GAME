@@ -36,6 +36,7 @@ public class sound_Attack_state : StateMachineBehaviour
                 if (targetType)
                 {
                     // deduct health
+                    health.currentHP--;
                 }
                 else
                 {
@@ -58,7 +59,7 @@ public class sound_Attack_state : StateMachineBehaviour
    {
         if(targetType)
         {
-            if (Vector3.Distance(monster.transform.position, GameObject.FindGameObjectWithTag("player").transform.position) <= 
+            if (Vector3.Distance(monster.transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) <= 
                 monster.GetComponent<soundMonsterController>().attackProximityThreshold)
             {
                 attackSuccsesful = true;

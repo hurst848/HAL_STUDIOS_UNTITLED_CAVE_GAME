@@ -9,7 +9,11 @@ TagManager:
   - Enemy
   - Ground
   - roomGenColliderTest
+<<<<<<< HEAD
   - flashlight
+=======
+  - pickup
+>>>>>>> feb4f241220e6cbf75bf5518573be55ad3cfda38
   layers:
   - Default
   - TransparentFX
@@ -42,7 +46,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - pickups
   m_SortingLayers:
   - name: Default
     uniqueID: 0

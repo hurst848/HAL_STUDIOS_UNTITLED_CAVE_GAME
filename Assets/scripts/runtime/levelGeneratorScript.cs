@@ -29,6 +29,10 @@ public class levelGeneratorScript : MonoBehaviour
 
     public List<GameObject> rooms;
 
+    public List<GameObject> spawnableItems;
+
+    public GameObject monster; 
+
     public GameObject doorBlock;
 
     public string seed;
@@ -55,13 +59,22 @@ public class levelGeneratorScript : MonoBehaviour
     private bool waitForRoom = false;
     private float intersectionMagnitudeFactor = 0.25f;
 
+    // SPAWN RATES FOR PICKUP ITEMS //
+    float cobbleSpawnRate  = 0.50f;
+    float inhalerSpawnRate = 0.25f;
+    float medkitSpawnRate =  0.20f;
+
+
+
+
     private void Start()
     {
         mask = LayerMask.GetMask("roomGenDetection");
         hostObject = new GameObject();
         generatedlevel.Add(Instantiate(rooms[0], hostObject.transform));
-        seed = gameHandler.gameSeed;
-        magnitude = gameHandler.gameMagnitude;
+        //seed = gameHandler.gameSeed;
+        //magnitude = gameHandler.gameMagnitude;
+        gameHandler.numMonsters = 2;
     }
 
 
@@ -139,6 +152,7 @@ public class levelGeneratorScript : MonoBehaviour
         StartCoroutine(realgenerateOffshootPaths());
         Debug.Log("main level generated");
         Debug.Log("LEVEL GENERATED Y'ALL");
+        
         yield return null;
     }
 
@@ -386,8 +400,9 @@ public class levelGeneratorScript : MonoBehaviour
         }
         intersectionMagnitudeFactor = 0.25f;
         surface.BuildNavMesh();
+        StartCoroutine(spawnPickups());
+        spawnMonsters();
 
-       
         yield return null;
         
     }
@@ -499,6 +514,92 @@ public class levelGeneratorScript : MonoBehaviour
         return rtrn;
     }
 
+    IEnumerator spawnPickups()
+    {
+        float test = 1.0f;
+        for (int i =0; i < generatedlevel.Count; i++)
+        {
+            // test to see if cobble spawns
+            test = Random.Range(0.0f, 1.0f);
+            if (test <= cobbleSpawnRate)
+            {
+                // instatiate cobble
+                float spawnLocX = Random.Range(
+                    generatedlevel[i].transform.position.x - generatedlevel[i].transform.lossyScale.x, 
+                    generatedlevel[i].transform.position.x + generatedlevel[i].transform.lossyScale.x);
+                float spawnLocZ = Random.Range(
+                    generatedlevel[i].transform.position.z - generatedlevel[i].transform.lossyScale.z, 
+                    generatedlevel[i].transform.position.z + generatedlevel[i].transform.lossyScale.z);
+                Vector3 spawnPos = new Vector3(
+                    spawnLocX, 
+                    generatedlevel[i].transform.position.y + 0.5f, 
+                    spawnLocZ);
+                Instantiate(spawnableItems[0], spawnPos, Quaternion.identity);
+            }
+
+            // test to see if inhaler spawns
+            test = Random.Range(0.0f, 1.0f);
+            if (test <= inhalerSpawnRate)
+            {
+                // instatiate inhaler
+                float spawnLocX = Random.Range(
+                    generatedlevel[i].transform.position.x - generatedlevel[i].transform.lossyScale.x,
+                    generatedlevel[i].transform.position.x + generatedlevel[i].transform.lossyScale.x);
+                float spawnLocZ = Random.Range(
+                    generatedlevel[i].transform.position.z - generatedlevel[i].transform.lossyScale.z,
+                    generatedlevel[i].transform.position.z + generatedlevel[i].transform.lossyScale.z);
+                Vector3 spawnPos = new Vector3(
+                    spawnLocX,
+                    generatedlevel[i].transform.position.y + 0.5f,
+                    spawnLocZ);
+                Instantiate(spawnableItems[1], spawnPos, Quaternion.identity);
+            }
+
+            // test to see if medkit spawns
+            test = Random.Range(0.0f, 1.0f);
+            if (test <= medkitSpawnRate)
+            {
+                // instatiate medkit
+                float spawnLocX = Random.Range(
+                    generatedlevel[i].transform.position.x - generatedlevel[i].transform.lossyScale.x,
+                    generatedlevel[i].transform.position.x + generatedlevel[i].transform.lossyScale.x);
+                float spawnLocZ = Random.Range(
+                    generatedlevel[i].transform.position.z - generatedlevel[i].transform.lossyScale.z,
+                    generatedlevel[i].transform.position.z + generatedlevel[i].transform.lossyScale.z);
+                Vector3 spawnPos = new Vector3(
+                    spawnLocX,
+                    generatedlevel[i].transform.position.y + 0.5f,
+                    spawnLocZ);
+                Instantiate(spawnableItems[2], spawnPos, Quaternion.identity);
+            }
+        }
+        yield return new WaitForSeconds(0.5f);
+        GameObject[] pickups = GameObject.FindGameObjectsWithTag("pickup");
+        for (int i = 0; i <pickups.Length; i++)
+        {
+            if (pickups[i].transform.position.y < -100)
+            {
+                Destroy(pickups[i]);
+                pickups = GameObject.FindGameObjectsWithTag("pickup");
+                i = 0;
+            }
+        }
+
+
+        yield return null;
+    }
+
+
+    void spawnMonsters()
+    {
+        int numberOfRooms = generatedlevel.Count - 1;
+        int spacing = numberOfRooms / gameHandler.numMonsters;
+
+        for (int i = 0; i < gameHandler.numMonsters; i++)
+        {
+             Instantiate(monster, generatedlevel[numberOfRooms - (spacing * i)].transform.position, Quaternion.identity);
+        }
+    }
    
     private void purgeNodes()
     {
