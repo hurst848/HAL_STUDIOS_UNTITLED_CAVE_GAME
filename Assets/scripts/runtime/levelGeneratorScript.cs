@@ -31,6 +31,8 @@ public class levelGeneratorScript : MonoBehaviour
 
     public List<GameObject> spawnableItems;
 
+    public GameObject monster; 
+
     public GameObject doorBlock;
 
     public string seed;
@@ -72,6 +74,7 @@ public class levelGeneratorScript : MonoBehaviour
         generatedlevel.Add(Instantiate(rooms[0], hostObject.transform));
         //seed = gameHandler.gameSeed;
         //magnitude = gameHandler.gameMagnitude;
+        gameHandler.numMonsters = 2;
     }
 
 
@@ -149,7 +152,7 @@ public class levelGeneratorScript : MonoBehaviour
         StartCoroutine(realgenerateOffshootPaths());
         Debug.Log("main level generated");
         Debug.Log("LEVEL GENERATED Y'ALL");
-        StartCoroutine(spawnPickups());
+        
         yield return null;
     }
 
@@ -397,8 +400,9 @@ public class levelGeneratorScript : MonoBehaviour
         }
         intersectionMagnitudeFactor = 0.25f;
         surface.BuildNavMesh();
+        StartCoroutine(spawnPickups());
+        spawnMonsters();
 
-       
         yield return null;
         
     }
@@ -583,6 +587,18 @@ public class levelGeneratorScript : MonoBehaviour
 
 
         yield return null;
+    }
+
+
+    void spawnMonsters()
+    {
+        int numberOfRooms = generatedlevel.Count - 1;
+        int spacing = numberOfRooms / gameHandler.numMonsters;
+
+        for (int i = 0; i < gameHandler.numMonsters; i++)
+        {
+             Instantiate(monster, generatedlevel[numberOfRooms - (spacing * i)].transform.position, Quaternion.identity);
+        }
     }
    
     private void purgeNodes()

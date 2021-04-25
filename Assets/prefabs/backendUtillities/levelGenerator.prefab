@@ -48,9 +48,10 @@ MonoBehaviour:
   - {fileID: 1457650298687810021, guid: 19270c3a9e3c3a64783e826f8fe817fa, type: 3}
   - {fileID: 2161634967114576920, guid: 0d4587f4acce102409ce656b007dc395, type: 3}
   - {fileID: 1175590836143616239, guid: 852622ebbe3443c479036cc5b194b1e0, type: 3}
+  monster: {fileID: 8979303246702356192, guid: df5993b11035a59458a34a21646e3d96, type: 3}
   doorBlock: {fileID: 0}
-  seed: 
-  magnitude: 100
+  seed: DEFAULT
+  magnitude: 50
   generateLevell: 0
   surface: {fileID: 0}
   hostObject: {fileID: 0}
