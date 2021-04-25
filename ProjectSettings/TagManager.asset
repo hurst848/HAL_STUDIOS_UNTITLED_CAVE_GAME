@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Ground
   - roomGenColliderTest
+  - pickup
   layers:
   - Default
   - TransparentFX
@@ -41,7 +42,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - pickups
   m_SortingLayers:
   - name: Default
     uniqueID: 0

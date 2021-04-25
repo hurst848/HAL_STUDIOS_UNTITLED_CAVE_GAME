@@ -43,3 +43,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9d9f869e83b49e498ce868b8d80f95d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rooms: []
+  spawnableItems:
+  - {fileID: 1457650298687810021, guid: 19270c3a9e3c3a64783e826f8fe817fa, type: 3}
+  - {fileID: 2161634967114576920, guid: 0d4587f4acce102409ce656b007dc395, type: 3}
+  - {fileID: 1175590836143616239, guid: 852622ebbe3443c479036cc5b194b1e0, type: 3}
+  doorBlock: {fileID: 0}
+  seed: 
+  magnitude: 100
+  generateLevell: 0
+  surface: {fileID: 0}
+  hostObject: {fileID: 0}
