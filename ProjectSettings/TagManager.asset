@@ -3,17 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - light
-  - sound
-  - Enemy
-  - Ground
-  - roomGenColliderTest
-<<<<<<< HEAD
-  - flashlight
-=======
-  - pickup
->>>>>>> feb4f241220e6cbf75bf5518573be55ad3cfda38
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -23,10 +13,6 @@ TagManager:
   - UI
   - 
   - 
-  - sensors
-  - lightDetector
-  - Ground
-  - roomGenDetection
   - 
   - 
   - 
@@ -46,7 +32,11 @@ TagManager:
   - 
   - 
   - 
-  - pickups
+  - 
+  - 
+  - 
+  - 
+  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0
