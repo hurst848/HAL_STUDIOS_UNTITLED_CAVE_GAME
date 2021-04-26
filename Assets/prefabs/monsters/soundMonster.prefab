@@ -49,11 +49,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensorPollRate: 3
-  hearingRadius: 0
+  hearingRadius: 10
   attackProximityThreshold: 0.5
   targetMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 1024
   chaseThreshold: 1
   walkSpeed: 5
   runSpeed: 10
@@ -62,6 +62,8 @@ MonoBehaviour:
   monsterHealth: 1
   monsterAlive: 1
   playerLoc: {fileID: 0}
+  isAttacking: 0
+  attackTarget: {fileID: 0}
 --- !u!136 &2218633806912249265
 CapsuleCollider:
   m_ObjectHideFlags: 0

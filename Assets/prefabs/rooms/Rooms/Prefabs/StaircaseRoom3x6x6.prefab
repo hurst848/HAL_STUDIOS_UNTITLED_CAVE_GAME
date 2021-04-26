@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 815196526303202239}
   - component: {fileID: 6362827420609756464}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: node1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 1966997309309394530}
   - component: {fileID: 2508606086389137681}
   - component: {fileID: 1372740317597408750}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: StaircaseRoom3x6x6
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -130,7 +130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 698590072032031682}
   - component: {fileID: 4359588472616870653}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: node2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 4317604932500199024}
   - component: {fileID: 778714741232448228}
   - component: {fileID: 1939636150860927537}
-  m_Layer: 11
+  m_Layer: 9
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}

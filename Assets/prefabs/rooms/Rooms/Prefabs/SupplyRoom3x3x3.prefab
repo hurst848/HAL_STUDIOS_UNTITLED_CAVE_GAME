@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1715411901617069615}
   - component: {fileID: 3939469498728893866}
   - component: {fileID: 4938501939679906772}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: SupplyRoom3x3x3
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6452030371585271455}
   - component: {fileID: 7740747480543291967}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: node1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 3992798856595363389}
   - component: {fileID: 454018342132445865}
   - component: {fileID: 5360871325550168673}
-  m_Layer: 11
+  m_Layer: 9
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}

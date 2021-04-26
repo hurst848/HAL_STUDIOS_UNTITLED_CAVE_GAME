@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4125776893287018642}
   - component: {fileID: 9098782442576620446}
   - component: {fileID: 1320531791185015427}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: SoundSource
   m_TagString: sound
   m_Icon: {fileID: 0}
@@ -154,8 +154,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1cdcbc014cf97c458344a98ae90d5cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loop: 0
   speaker: {fileID: 4125776893287018642}
   sound: {fileID: 0}
   detectionRange: {fileID: 9098782442576620446}
   maximumListeningDistance: 10
+  monsterVolume: 0
   clipFade: 0.01

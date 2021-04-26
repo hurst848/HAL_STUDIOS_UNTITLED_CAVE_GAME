@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7836808590687391662}
   - component: {fileID: 6765626846056147770}
   - component: {fileID: 6518588295781193913}
-  m_Layer: 11
+  m_Layer: 9
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 5505356471019882428}
   - component: {fileID: 5835514659714238913}
   - component: {fileID: 2971240070530009821}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: StartingRoom6x3x6
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -165,7 +165,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3323491020689815654}
   - component: {fileID: 1223942663050737923}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: node1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

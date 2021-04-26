@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8675778278310569238}
   - component: {fileID: 5279120644844503426}
   - component: {fileID: 7550723068765433633}
-  m_Layer: 11
+  m_Layer: 9
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 6395556834571152644}
   - component: {fileID: 7163507441652694816}
   - component: {fileID: 3518681544565282162}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: LCornerCorridor6x3x6
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -167,7 +167,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6866630930443573576}
   - component: {fileID: 3964527515803866991}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: node1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +223,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6866630930451232086}
   - component: {fileID: 7704449238537986789}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: node2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

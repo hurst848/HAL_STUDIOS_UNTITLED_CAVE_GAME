@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8629905454356428296}
   - component: {fileID: 5108822953349206684}
   - component: {fileID: 7101840735611948872}
-  m_Layer: 11
+  m_Layer: 9
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5831659427446657811}
   - component: {fileID: 3953698161606832544}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: node1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5831659428984350555}
   - component: {fileID: 2464128901303329506}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: node2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 6297314479033155098}
   - component: {fileID: 6084492443130625942}
   - component: {fileID: 466559425100348003}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: LargeRoom6x3x6
   m_TagString: Ground
   m_Icon: {fileID: 0}
