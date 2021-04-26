@@ -545,6 +545,90 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 309030308}
   m_CullTransparentMesh: 0
+--- !u!1001 &340653987
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 755300384}
+    m_Modifications:
+    - target: {fileID: 2358342939296927609, guid: 813d3ae951847774eadc07a7d4943177,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2358342939296927609, guid: 813d3ae951847774eadc07a7d4943177,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2358342939296927609, guid: 813d3ae951847774eadc07a7d4943177,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2777778
+      objectReference: {fileID: 0}
+    - target: {fileID: 2358342939296927609, guid: 813d3ae951847774eadc07a7d4943177,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2358342939296927609, guid: 813d3ae951847774eadc07a7d4943177,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2358342939296927609, guid: 813d3ae951847774eadc07a7d4943177,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2358342939296927609, guid: 813d3ae951847774eadc07a7d4943177,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2358342939296927609, guid: 813d3ae951847774eadc07a7d4943177,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2358342939296927609, guid: 813d3ae951847774eadc07a7d4943177,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2358342939296927609, guid: 813d3ae951847774eadc07a7d4943177,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2358342939296927609, guid: 813d3ae951847774eadc07a7d4943177,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2358342939296927609, guid: 813d3ae951847774eadc07a7d4943177,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2358342939296927609, guid: 813d3ae951847774eadc07a7d4943177,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2358342939296927609, guid: 813d3ae951847774eadc07a7d4943177,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5820562264037645281, guid: 813d3ae951847774eadc07a7d4943177,
+        type: 3}
+      propertyPath: m_Name
+      value: BreathSoundSource
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 813d3ae951847774eadc07a7d4943177, type: 3}
 --- !u!1 &345780278 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b5f57454bf3869e4db15c3c07afbd8be,
@@ -1294,6 +1378,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 594610247}
   m_CullTransparentMesh: 0
+--- !u!114 &597677627 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1320531791185015427, guid: 813d3ae951847774eadc07a7d4943177,
+    type: 3}
+  m_PrefabInstance: {fileID: 340653987}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1cdcbc014cf97c458344a98ae90d5cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &658628826
 GameObject:
   m_ObjectHideFlags: 0
@@ -1455,6 +1551,12 @@ MonoBehaviour:
   BreathText: {fileID: 897851851}
   breathRemaining: 0
   breathCapacity: 400
+  breathEmmision: {fileID: 597677627}
+  breathNoises:
+  - {fileID: 8300000, guid: 2d3e0dbd6ed00464f814170f6717b6c3, type: 3}
+  - {fileID: 8300000, guid: 42646b5d3cfe06e44aa4d639d66e409b, type: 3}
+  - {fileID: 8300000, guid: 2b5f7f7e83375be4598b8efd7a04a4fb, type: 3}
+  - {fileID: 8300000, guid: ade50da16c14eac44960762f3325c2f3, type: 3}
 --- !u!114 &703753264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1611,6 +1713,12 @@ MonoBehaviour:
   HPSlider: {fileID: 736453915}
   hpDisplay: {fileID: 861932549}
   totalHP: 3
+--- !u!4 &755300384 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3511800259767491364, guid: 3ac0603623c63ba4a9d45c972b74e658,
+    type: 3}
+  m_PrefabInstance: {fileID: 1780278375}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &822947564
 GameObject:
   m_ObjectHideFlags: 0

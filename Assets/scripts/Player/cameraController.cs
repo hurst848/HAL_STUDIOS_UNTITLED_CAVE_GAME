@@ -18,7 +18,7 @@ public class cameraController : MonoBehaviour
     private bool canJump = true;
     private bool canSprint = true;
     private bool canCrouch = true;
-    private bool isSprinting = false;
+    public static bool isSprinting = false;
     private bool isCrouching = false;
 
     public audioOutputController footstepEmmision;
