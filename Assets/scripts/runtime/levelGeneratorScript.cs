@@ -57,6 +57,10 @@ public class levelGeneratorScript : MonoBehaviour
     float inhalerSpawnRate = 0.25f;
     float medkitSpawnRate = 0.20f;
 
+    // Stuff for faster/more reliable room generation
+    int numberOfFails = 0;
+    float intersectionMultipier = 1.0f;
+
 
     private void shuffleRoomList()
     {
@@ -77,24 +81,13 @@ public class levelGeneratorScript : MonoBehaviour
         //seed = gameHandler.gameSeed;
         //magnitude = gameHandler.gameMagnitude;
         gameHandler.numMonsters = 2;
+        GameObject.FindGameObjectWithTag("Player").transform.position = generatedlevel[0].transform.position;
     }
 
 
     void Update()
     {
-        if (generateLevell)
-        {
-            Debug.Log("WORKING");
-            generateLevell = false;
-        }
-        if (Input.GetKeyDown("space"))
-        {
-            StartCoroutine(generateLinearRoom());
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            StartCoroutine(generateLevel());
-        }
+        
         if (Input.GetKeyDown(KeyCode.Q))
         {
             StartCoroutine(newRoomGeneration());
@@ -762,7 +755,7 @@ public class levelGeneratorScript : MonoBehaviour
                         if (generatedlevel.Count >= 3) { generatedlevel[generatedlevel.Count - 3].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground"); }
 
                         yield return new WaitForFixedUpdate();
-                        Collider[] roomsIntersecting = Physics.OverlapBox(generatedlevel[generatedlevel.Count - 1].transform.position, generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size , Quaternion.identity, mask);
+                        Collider[] roomsIntersecting = Physics.OverlapBox(generatedlevel[generatedlevel.Count - 1].transform.position, generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size * intersectionMultipier, Quaternion.identity, mask);
 
                         // check if the new room intersects with any nearby rooms
                         if (roomsIntersecting.Length > 0)
@@ -775,6 +768,8 @@ public class levelGeneratorScript : MonoBehaviour
                         }
                         else
                         {
+                            intersectionMultipier = 1.0f;
+                            numberOfFails = 0;
                             int chanceOfVerticalCorridor = Random.Range(0, 100);
                             if (chanceOfVerticalCorridor <= 1)
                             {
@@ -869,9 +864,12 @@ public class levelGeneratorScript : MonoBehaviour
                         validRooms = getCompatibleRooms(_a);
                         startIndex = Random.Range(0, generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes.Count - 1);
                     }
-
+                    numberOfFails++;
                 }
-
+                if (numberOfFails >= 20)
+                {
+                    intersectionMultipier = 0.75f;
+                }
 
             }
             waitForRoom = false;
@@ -942,9 +940,110 @@ public class levelGeneratorScript : MonoBehaviour
                         (_a.gameObject.transform.position.x - _b.transform.position.x),
                         (_a.gameObject.transform.position.y - _b.transform.position.y),
                         (_a.gameObject.transform.position.z - _b.transform.position.z));
+                    Collider[] roomsIntersecting = Physics.OverlapBox(generatedlevel[generatedlevel.Count - 1].transform.position, generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size, Quaternion.identity, mask);
+                    if (roomsIntersecting.Length > 0)
+                    {
+                        generatedlevel[generatedlevel.Count - 1].transform.localScale = new Vector3(1, 1, 0.01f);
 
+                        GameObject g12 = generatedlevel[i].GetComponent<roomData>().listOfNodes[j];
+                        GameObject g13 = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[0];
+                        generatedlevel[i].GetComponent<roomData>().listOfNodes.RemoveAt(j);
+                        generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes.RemoveAt(0);
+                        Destroy(g12);
+                        Destroy(g13);
+                    }
+                    else
+                    {
+                        GameObject g12 = generatedlevel[i].GetComponent<roomData>().listOfNodes[j];
+                        GameObject g13 = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[0];
+                        generatedlevel[i].GetComponent<roomData>().listOfNodes.RemoveAt(j);
+                        generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes.RemoveAt(0);
+                        Destroy(g12);
+                        Destroy(g13);
+                    }
                 }
             }
+        }
+
+        // fix any broken layers that may exist because of the intersection testing
+        for (int i = 0; i < generatedlevel.Count; i++)
+        {
+            generatedlevel[i].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("roomGenDetection");
+        }
+
+
+
+
+        // build nav mesh
+        surface.BuildNavMesh();
+
+
+        // generate the random pickups
+        float test = 1.0f;
+        for (int i = 0; i < generatedlevel.Count; i++)
+        {
+            // test to see if cobble spawns
+            test = Random.Range(0.0f, 1.0f);
+            if (test <= cobbleSpawnRate)
+            {
+                // instatiate cobble
+                float spawnLocX = Random.Range(
+                    generatedlevel[i].transform.position.x - generatedlevel[i].transform.lossyScale.x,
+                    generatedlevel[i].transform.position.x + generatedlevel[i].transform.lossyScale.x);
+                float spawnLocZ = Random.Range(
+                    generatedlevel[i].transform.position.z - generatedlevel[i].transform.lossyScale.z,
+                    generatedlevel[i].transform.position.z + generatedlevel[i].transform.lossyScale.z);
+                Vector3 spawnPos = new Vector3(
+                    spawnLocX,
+                    generatedlevel[i].transform.position.y + 0.5f,
+                    spawnLocZ);
+                Instantiate(spawnableItems[0], spawnPos, Quaternion.identity);
+            }
+
+            // test to see if inhaler spawns
+            test = Random.Range(0.0f, 1.0f);
+            if (test <= inhalerSpawnRate)
+            {
+                // instatiate inhaler
+                float spawnLocX = Random.Range(
+                    generatedlevel[i].transform.position.x - generatedlevel[i].transform.lossyScale.x,
+                    generatedlevel[i].transform.position.x + generatedlevel[i].transform.lossyScale.x);
+                float spawnLocZ = Random.Range(
+                    generatedlevel[i].transform.position.z - generatedlevel[i].transform.lossyScale.z,
+                    generatedlevel[i].transform.position.z + generatedlevel[i].transform.lossyScale.z);
+                Vector3 spawnPos = new Vector3(
+                    spawnLocX,
+                    generatedlevel[i].transform.position.y + 0.5f,
+                    spawnLocZ);
+                Instantiate(spawnableItems[1], spawnPos, Quaternion.identity);
+            }
+
+            // test to see if medkit spawns
+            test = Random.Range(0.0f, 1.0f);
+            if (test <= medkitSpawnRate)
+            {
+                // instatiate medkit
+                float spawnLocX = Random.Range(
+                    generatedlevel[i].transform.position.x - generatedlevel[i].transform.lossyScale.x,
+                    generatedlevel[i].transform.position.x + generatedlevel[i].transform.lossyScale.x);
+                float spawnLocZ = Random.Range(
+                    generatedlevel[i].transform.position.z - generatedlevel[i].transform.lossyScale.z,
+                    generatedlevel[i].transform.position.z + generatedlevel[i].transform.lossyScale.z);
+                Vector3 spawnPos = new Vector3(
+                    spawnLocX,
+                    generatedlevel[i].transform.position.y + 0.5f,
+                    spawnLocZ);
+                Instantiate(spawnableItems[2], spawnPos, Quaternion.identity);
+            }
+        }
+
+        // spawn monsters
+        int numberOfRooms = generatedlevel.Count - 1;
+        int spacing = numberOfRooms / gameHandler.numMonsters;
+
+        for (int i = 0; i < gameHandler.numMonsters; i++)
+        {
+            Instantiate(monster, generatedlevel[numberOfRooms - (spacing * i)].transform.position, Quaternion.identity);
         }
 
         Debug.Log("ROOMGENERATED");

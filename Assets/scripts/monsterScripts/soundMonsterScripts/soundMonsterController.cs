@@ -88,6 +88,7 @@ public class soundMonsterController : MonoBehaviour
 
     IEnumerator fetchSound()
     {
+        yield return new WaitForFixedUpdate();
         List<Collider> possibleTargets = new List<Collider>(); 
         while (monsterAlive)
         {
@@ -127,7 +128,7 @@ public class soundMonsterController : MonoBehaviour
 
 
 
-            yield return new WaitForSeconds(3.0f);
+            yield return new WaitForSeconds(0.03f);
         }
 
         yield return null;

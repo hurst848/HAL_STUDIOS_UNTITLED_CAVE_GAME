@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2265677393626084191}
   - component: {fileID: 6288057363993288338}
   - component: {fileID: 80114593887735782}
-  m_Layer: 31
+  m_Layer: 8
   m_Name: cobble
   m_TagString: pickup
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 1657739897764184583}
   - component: {fileID: 4599959706299546445}
   - component: {fileID: 1077465157551726553}
-  m_Layer: 31
+  m_Layer: 8
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}

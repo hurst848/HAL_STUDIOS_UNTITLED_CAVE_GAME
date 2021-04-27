@@ -12,9 +12,11 @@ public class sound_Attack_state : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Debug.Log("entered ATTACK state");
         animator.ResetTrigger("attack");
-        monster.GetComponent<NavMeshAgent>().enabled = false;
         monster = animator.gameObject;
+        monster.GetComponent<NavMeshAgent>().enabled = false;
+        
         // if there is no sound target, assume it is the player that is being attacked
         if (monster.GetComponent<soundMonsterController>().attackTarget == null)
         {

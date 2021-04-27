@@ -91,8 +91,11 @@ public class cameraController : MonoBehaviour
             Vector3 ply = transform.TransformDirection(dirX, 0, dirZ);
 
 
-            if (isSprinting && _rigidbody.velocity.magnitude < runSpeed) { _rigidbody.AddForce(ply.x * runSpeed, 0, ply.z * runSpeed); }
-            else if (_rigidbody.velocity.magnitude < walkSpeed) { _rigidbody.AddForce(ply.x * walkSpeed, 0, ply.z * walkSpeed); }
+            if (isSprinting) { _rigidbody.velocity = new Vector3(ply.x *runSpeed , _rigidbody.velocity.y, ply.z *runSpeed); }
+            else { _rigidbody.velocity = new Vector3(ply.x * walkSpeed, _rigidbody.velocity.y, ply.z * walkSpeed); }
+
+            //if (isSprinting && _rigidbody.velocity.magnitude < runSpeed) { _rigidbody.AddForce(ply.x * runSpeed, 0, ply.z * runSpeed); }
+            //else if (_rigidbody.velocity.magnitude < walkSpeed) { _rigidbody.AddForce(ply.x * walkSpeed, 0, ply.z * walkSpeed); }
 
         }
     }
