@@ -5,6 +5,4 @@ using UnityEngine;
 public class roomData : MonoBehaviour
 {
     public List<GameObject> listOfNodes;
-
 }
-
