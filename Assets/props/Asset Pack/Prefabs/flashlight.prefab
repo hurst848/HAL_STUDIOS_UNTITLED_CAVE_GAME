@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3595598872243280350}
   - component: {fileID: 4339298033720371633}
-  m_Layer: 31
+  m_Layer: 16
   m_Name: flashlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 4149528489337694342}
   - component: {fileID: 1243338131025170892}
   - component: {fileID: 2334134887677113688}
-  m_Layer: 31
+  m_Layer: 16
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7521827545888979494}
   - component: {fileID: 9081996356570921554}
-  m_Layer: 31
+  m_Layer: 16
   m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,13 +169,13 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.9339623, g: 0.68731105, b: 0.048460312, a: 1}
-  m_Intensity: 1
+  m_Intensity: 2.54
   m_Range: 10
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
+  m_SpotAngle: 51.7
+  m_InnerSpotAngle: 5
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -206,7 +206,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2147484673
+    m_Bits: 4294967295
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
