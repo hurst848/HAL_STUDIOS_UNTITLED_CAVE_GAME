@@ -720,7 +720,7 @@ public class levelGeneratorScript : MonoBehaviour
             while (!roomGenerated)
             {
                 // pick a room from the compatible list
-                int indexOfRoom = Random.Range(0, validRooms.Count - 1);
+                int indexOfRoom = Random.Range(0, validRooms.Count);
                 int roomToBeChecked = validRooms[indexOfRoom];
 
                 // make a list of all the nodes in that room that are compatible
@@ -729,6 +729,12 @@ public class levelGeneratorScript : MonoBehaviour
                 // loop through all compatible nodes of this room
                 while (validNodes.Count > 0 && !roomGenerated)
                 {
+                    // fix any wierd layers
+                    for (int i = 0; i < generatedlevel.Count; i++)
+                    {
+                        generatedlevel[i].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("roomGenDetection");
+                    }
+
                     // instantiate the room
                     generatedlevel.Add(Instantiate(rooms[roomToBeChecked], hostObject.transform));
 
@@ -755,7 +761,8 @@ public class levelGeneratorScript : MonoBehaviour
                         if (generatedlevel.Count >= 3) { generatedlevel[generatedlevel.Count - 3].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground"); }
 
                         yield return new WaitForFixedUpdate();
-                        Collider[] roomsIntersecting = Physics.OverlapBox(generatedlevel[generatedlevel.Count - 1].transform.position, generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size * intersectionMultipier, Quaternion.identity, mask);
+                        Vector3 multi = new Vector3(generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size.x * intersectionMultipier, 1.0f, generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size.y *intersectionMultipier);
+                        Collider[] roomsIntersecting = Physics.OverlapBox(generatedlevel[generatedlevel.Count - 1].transform.position, multi, Quaternion.identity, mask);
 
                         // check if the new room intersects with any nearby rooms
                         if (roomsIntersecting.Length > 0)
@@ -770,7 +777,7 @@ public class levelGeneratorScript : MonoBehaviour
                         {
                             intersectionMultipier = 1.0f;
                             numberOfFails = 0;
-                            int chanceOfVerticalCorridor = Random.Range(0, 100);
+                            /*int chanceOfVerticalCorridor = Random.Range(0, 100);
                             if (chanceOfVerticalCorridor <= 1)
                             {
                                 Debug.Log("vertCorridorSpawned");
@@ -784,7 +791,7 @@ public class levelGeneratorScript : MonoBehaviour
                                 chosenIndex = Random.Range(0, validNodes.Count - 1);
                                 _b = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[chosenIndex];
 
-                                
+
                                 rotDiff = (((_a.gameObject.transform.rotation.eulerAngles.y - 180) + 360) % 360) - (((_b.gameObject.transform.rotation.eulerAngles.y) + 360) % 360);
                                 generatedlevel[generatedlevel.Count - 1].transform.Rotate(transform.eulerAngles.x, transform.eulerAngles.y + rotDiff, transform.eulerAngles.z);
                                 generatedlevel[generatedlevel.Count - 1].transform.position += new Vector3(
@@ -792,8 +799,8 @@ public class levelGeneratorScript : MonoBehaviour
                                     (_a.gameObject.transform.position.y - _b.transform.position.y),
                                     (_a.gameObject.transform.position.z - _b.transform.position.z));
 
-                            }
-                            
+                            }*/
+
                             GameObject g12 = generatedlevel[generatedlevel.Count - 2].GetComponent<roomData>().listOfNodes[startIndex];
                             GameObject g13 = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[validNodes[chosenIndex]];
                             generatedlevel[generatedlevel.Count - 2].GetComponent<roomData>().listOfNodes.RemoveAt(startIndex);
@@ -866,7 +873,7 @@ public class levelGeneratorScript : MonoBehaviour
                     }
                     numberOfFails++;
                 }
-                if (numberOfFails >= 20)
+                if (numberOfFails >= 100)
                 {
                     intersectionMultipier = 0.75f;
                 }
@@ -883,7 +890,7 @@ public class levelGeneratorScript : MonoBehaviour
         {
             if (generatedlevel[i].GetComponent<roomData>().listOfNodes.Count > 0)
             {
-                for (int j =0; j < generatedlevel[i].GetComponent<roomData>().listOfNodes.Count -1; j++)
+                for (int j = 0; j < generatedlevel[i].GetComponent<roomData>().listOfNodes.Count; j++)
                 {
                     float rotDiff = (((generatedlevel[i].GetComponent<roomData>().listOfNodes[j].gameObject.transform.rotation.eulerAngles.y - 180) + 360) % 360) - (((endNode.gameObject.transform.rotation.eulerAngles.y) + 360) % 360);
                     generatedlevel[generatedlevel.Count - 1].transform.Rotate(transform.eulerAngles.x, transform.eulerAngles.y + rotDiff, transform.eulerAngles.z);
@@ -896,20 +903,25 @@ public class levelGeneratorScript : MonoBehaviour
                     generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground");
                     generatedlevel[i].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground");
 
+                    
+
+
                     yield return new WaitForFixedUpdate();
                     Collider[] roomsIntersecting = Physics.OverlapBox(generatedlevel[generatedlevel.Count - 1].transform.position, generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size, Quaternion.identity, mask);
                     // check if the new room intersects with any nearby rooms
                     if (roomsIntersecting.Length == 0)
                     {
                         // succses
-                        j = int.MaxValue - 1;
-                        i = int.MaxValue - 1;
+                        
                         GameObject g12 = generatedlevel[i].GetComponent<roomData>().listOfNodes[j];
                         GameObject g13 = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[0];
                         generatedlevel[i].GetComponent<roomData>().listOfNodes.RemoveAt(j);
                         generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes.RemoveAt(0);
                         Destroy(g12);
                         Destroy(g13);
+                        j = generatedlevel[i].GetComponent<roomData>().listOfNodes.Count - 1;
+                        i = int.MaxValue - 1;
+                        Debug.Log("ending room in position");
                     }
                     else
                     {
@@ -940,7 +952,11 @@ public class levelGeneratorScript : MonoBehaviour
                         (_a.gameObject.transform.position.x - _b.transform.position.x),
                         (_a.gameObject.transform.position.y - _b.transform.position.y),
                         (_a.gameObject.transform.position.z - _b.transform.position.z));
-                    Collider[] roomsIntersecting = Physics.OverlapBox(generatedlevel[generatedlevel.Count - 1].transform.position, generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size, Quaternion.identity, mask);
+
+                    intersectionMultipier = 0.75f;
+                    Vector3 multi = new Vector3(generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size.x * intersectionMultipier, 1.0f, generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size.y * intersectionMultipier);
+
+                    Collider[] roomsIntersecting = Physics.OverlapBox(generatedlevel[generatedlevel.Count - 1].transform.position, multi, Quaternion.identity, mask);
                     if (roomsIntersecting.Length > 0)
                     {
                         generatedlevel[generatedlevel.Count - 1].transform.localScale = new Vector3(1, 1, 0.01f);
