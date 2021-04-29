@@ -8,10 +8,13 @@ public class menuAgent : MonoBehaviour
 {
     public Canvas pauseMenu;
 
+    public levelGeneratorScript levelGen;
     bool isPaused = false;
 
     private void Start()
     {
+        levelGen.generateLevel();
+
         Resume();
     }
 

@@ -27,11 +27,15 @@ public class sound_Walk_state : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+
+        soundMonsterController.attacktarget possTarget = monster.GetComponent<soundMonsterController>().fetchSound();
+
+
         // if the monster detected the sound, check which state to switch to
-        if (monster.GetComponent<soundMonsterController>().target != null)
+        if (possTarget.target != null)
         {
             // if bellow the chase threshold, enter the locating state, else enter the running state
-            if (monster.GetComponent<soundMonsterController>().relVolumeOfTarget >= monster.GetComponent<soundMonsterController>().chaseThreshold)
+            if (possTarget.relativeSound >= monster.GetComponent<soundMonsterController>().chaseThreshold)
             {
                 animator.SetTrigger("run");
             }

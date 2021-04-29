@@ -7,7 +7,7 @@ public class sound_Attack_state : StateMachineBehaviour
 {
     private GameObject monster;
     private bool targetType; // true = player, false = nearest sound source
-    private bool attackSuccsesful;
+    private bool attackSuccsesful = false;
     private bool attackFinished= false;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -17,15 +17,7 @@ public class sound_Attack_state : StateMachineBehaviour
         monster = animator.gameObject;
         monster.GetComponent<NavMeshAgent>().enabled = false;
         
-        // if there is no sound target, assume it is the player that is being attacked
-        if (monster.GetComponent<soundMonsterController>().attackTarget == null)
-        {
-            targetType = true;
-        }
-        else
-        {
-            targetType = false;
-        }
+       
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -35,15 +27,9 @@ public class sound_Attack_state : StateMachineBehaviour
         {
             if (attackSuccsesful)
             {
-                if (targetType)
-                {
-                    // deduct health
-                    health.currentHP--;
-                }
-                else
-                {
-                    Destroy(monster.GetComponent<soundMonsterController>().attackTarget);
-                }
+                // deduct health
+                health.currentHP--;
+                
               
             }
             animator.SetTrigger("locating");

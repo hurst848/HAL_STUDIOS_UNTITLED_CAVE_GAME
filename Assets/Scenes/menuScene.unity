@@ -1854,7 +1854,7 @@ MonoBehaviour:
   settingsMenu: {fileID: 505827313}
   resolutionSettings: {fileID: 788506959}
   customGameSettings:
-  - {fileID: 1110743208}
+  - {fileID: 2108800417}
   - {fileID: 1135619656}
   - {fileID: 3788469}
   diff: 0
@@ -2462,16 +2462,16 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 808871582}
+  m_TargetGraphic: {fileID: 1545036553}
   m_TextComponent: {fileID: 481049351}
   m_Placeholder: {fileID: 1814183159}
-  m_ContentType: 2
+  m_ContentType: 3
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 4
+  m_KeyboardType: 2
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 1
+  m_CharacterValidation: 2
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
@@ -4760,13 +4760,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1545036553}
   m_TextComponent: {fileID: 3788469}
   m_Placeholder: {fileID: 1507787607}
-  m_ContentType: 2
+  m_ContentType: 0
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 4
+  m_KeyboardType: 0
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 1
+  m_CharacterValidation: 0
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:

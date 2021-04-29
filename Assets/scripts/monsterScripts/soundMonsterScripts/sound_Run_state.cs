@@ -16,7 +16,23 @@ public class sound_Run_state : StateMachineBehaviour
         monster.GetComponent<NavMeshAgent>().enabled = true;
 
         // set the pathfinding to run towards the target 
-        destination = monster.GetComponent<soundMonsterController>().target.transform.position;
+        if (monster.GetComponent<soundMonsterController>().target == null)
+        {
+            GameObject tmp =  monster.GetComponent<soundMonsterController>().fetchSound().target;
+            if (tmp == null)
+            {
+                animator.SetTrigger("locating");
+            }
+            else
+            {
+                destination = tmp.transform.position;
+            }
+        }
+        else
+        {
+            destination = monster.GetComponent<soundMonsterController>().target.transform.position;
+        }
+        
         monster.GetComponent<NavMeshAgent>().SetDestination(destination);
 
         // set speed to run 
@@ -26,7 +42,9 @@ public class sound_Run_state : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (monster.GetComponent<soundMonsterController>().target != null)
+        soundMonsterController.attacktarget possTarget = monster.GetComponent<soundMonsterController>().fetchSound();
+
+        if (possTarget.target != null)
         {
             // if bellow the chase threshold, enter the locating state, else enter the running state
             animator.SetTrigger("locating");

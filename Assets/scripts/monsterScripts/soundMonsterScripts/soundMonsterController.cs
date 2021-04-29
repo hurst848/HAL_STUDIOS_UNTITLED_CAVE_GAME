@@ -40,7 +40,7 @@ public class soundMonsterController : MonoBehaviour
     [HideInInspector] public Transform playerLoc;
     [HideInInspector] public bool isAttacking = false;
     [HideInInspector] public GameObject attackTarget = null;
-
+    [HideInInspector] public GameObject currentTarget = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -59,79 +59,63 @@ public class soundMonsterController : MonoBehaviour
                 isAttacking = true;
                 animator.SetTrigger("attack");
             }
-            else
-            {
-                Collider[] listOfSoundTargets = Physics.OverlapSphere(transform.position, hearingRadius, targetMask);
-                int indexOfClosest = 0;
-                float valueOfClosest = float.MaxValue;
-                for (int i = 0; i < listOfSoundTargets.Length; i++)
-                {
-                    if (listOfSoundTargets[i].tag == "sound")
-                    {
-                        if (Vector3.Distance(transform.position, listOfSoundTargets[i].transform.position) < valueOfClosest)
-                        {
-                            indexOfClosest = i;
-                            valueOfClosest = Vector3.Distance(transform.position, listOfSoundTargets[i].transform.position);
-                        }
-                    }
-                }
-                if (valueOfClosest <= attackProximityThreshold)
-                {
-                    isAttacking = true;
-                    attackTarget = listOfSoundTargets[indexOfClosest].gameObject;
-                    animator.SetTrigger("attack");
-                }  
-            }
         }
     }
 
-
-    IEnumerator fetchSound()
+    public struct attacktarget
     {
-        yield return new WaitForFixedUpdate();
-        List<Collider> possibleTargets = new List<Collider>(); 
-        while (monsterAlive)
+
+        public GameObject target;
+        public float relativeSound;
+    
+    
+    }
+
+    public attacktarget fetchSound()
+    {
+        attacktarget rtrn = new attacktarget();
+        List<Collider> possibleTargets = new List<Collider>();
+        possibleTargets.Clear();
+        target = null;
+        Collider[] targetsWithinRange = Physics.OverlapSphere(transform.position, hearingRadius, targetMask);
+        for (int i = 0; i < targetsWithinRange.Length; i++)
         {
-            // get all valid sound sources
-            possibleTargets.Clear();
-            target = null;
-            Collider[] targetsWithinRange = Physics.OverlapSphere(transform.position, hearingRadius, targetMask);
-            for (int i = 0; i < targetsWithinRange.Length; i++)
+            if (targetsWithinRange[i].tag == "sound")
             {
-                if (targetsWithinRange[i].tag == "sound")
-                {
-                    possibleTargets.Add(targetsWithinRange[i]);
-                }
+                possibleTargets.Add(targetsWithinRange[i]);
             }
-
-            // evaluate all valid sound sources to deturmine the one to go for if there are any results
-            if (possibleTargets.Count > 0)
-            {
-                int bestIndex = 0;
-                float bestSound = 0.0f;
-                for (int i = 0;  i < possibleTargets.Count; i++)
-                {
-                    float relSoundLevel = possibleTargets[i].GetComponent<audioOutputController>().monsterVolume / Vector3.Distance(transform.position, possibleTargets[i].transform.position);
-                    if (relSoundLevel > bestSound)
-                    {
-                        bestSound = relSoundLevel;
-                        bestIndex = i;
-                    }
-                }
-                target = possibleTargets[bestIndex].gameObject;
-                relVolumeOfTarget = bestSound;
-            }
-            else
-            {
-                target = null;
-            }
-
-
-
-            yield return new WaitForSeconds(0.03f);
         }
 
-        yield return null;
+        // evaluate all valid sound sources to deturmine the one to go for if there are any results
+        if (possibleTargets.Count > 0)
+        {
+            int bestIndex = 0;
+            float bestSound = 0.0f;
+            for (int i = 0; i < possibleTargets.Count; i++)
+            {
+                float relSoundLevel = possibleTargets[i].GetComponent<audioOutputController>().monsterVolume / Vector3.Distance(transform.position, possibleTargets[i].transform.position);
+                if (relSoundLevel > bestSound)
+                {
+                    bestSound = relSoundLevel;
+                    bestIndex = i;
+                }
+            }
+            target = possibleTargets[bestIndex].gameObject;
+            relVolumeOfTarget = bestSound;
+            rtrn.target = target.gameObject;
+        }
+        else
+        {
+            target = null;
+            rtrn.target = null;
+        }
+        
+        rtrn.relativeSound = relVolumeOfTarget;
+        
+
+        return rtrn;
     }
+
+    
 
 }
