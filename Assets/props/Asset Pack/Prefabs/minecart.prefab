@@ -89,7 +89,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5859946770428947539}
   - component: {fileID: 3996853712360827373}
-  - component: {fileID: 7362758640198382610}
   m_Layer: 0
   m_Name: minecart
   m_TagString: Untagged
@@ -123,21 +122,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.2540451, y: 1.257952, z: 1}
-  m_Center: {x: -0.0044139028, y: -0.12583852, z: 0}
---- !u!208 &7362758640198382610
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6492332654659974889}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.6270225, y: 0.628976, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: -0.004413903, y: -0.1258385, z: 0}
-  m_TimeToStationary: 0.5
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

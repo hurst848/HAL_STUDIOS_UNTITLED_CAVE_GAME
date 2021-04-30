@@ -1,8 +1,35 @@
 fileFormatVersion: 2
-guid: 1a66b12a7b0ebcc469abd1df4f7824fd
+guid: add6210bcf67e9c4c90d170a7d25fcfe
 ModelImporter:
   serializedVersion: 19301
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: 4219266326801906582
+    second: Body|BodyAction
+  - first:
+      74: -7631927474885921043
+    second: Body|EyesAction
+  - first:
+      74: 7933771894232041914
+    second: Body|EyesAction.001
+  - first:
+      74: -4049575890915833462
+    second: Body|EyesAction.002
+  - first:
+      74: 6778583077829911965
+    second: Eyes|BodyAction
+  - first:
+      74: -7414643320279608335
+    second: Eyes|EyesAction
+  - first:
+      74: 6379869748724367372
+    second: Eyes|EyesAction.001
+  - first:
+      74: 5061333489868586702
+    second: Eyes|EyesAction.002
+  - first:
+      74: -623603649343465320
+    second: Scene
   externalObjects: {}
   materials:
     materialImportMode: 1

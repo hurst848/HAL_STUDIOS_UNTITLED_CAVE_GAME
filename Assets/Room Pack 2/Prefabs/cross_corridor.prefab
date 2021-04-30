@@ -205,12 +205,12 @@ PrefabInstance:
     - target: {fileID: 3317355424018133583, guid: e72fe431012d4b746b01a573f3fbb94e,
         type: 3}
       propertyPath: canConnectToCap
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3317355424018133583, guid: e72fe431012d4b746b01a573f3fbb94e,
         type: 3}
       propertyPath: canConnectToRoom
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3317355424018133583, guid: e72fe431012d4b746b01a573f3fbb94e,
         type: 3}
@@ -331,7 +331,7 @@ PrefabInstance:
     - target: {fileID: 6301152234717359883, guid: 1740f21809d1ae64d8f24d58699c79fe,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.1999999
+      value: 1.19
       objectReference: {fileID: 0}
     - target: {fileID: 6301152234717359883, guid: 1740f21809d1ae64d8f24d58699c79fe,
         type: 3}
@@ -436,12 +436,12 @@ PrefabInstance:
     - target: {fileID: 3317355424018133583, guid: e72fe431012d4b746b01a573f3fbb94e,
         type: 3}
       propertyPath: canConnectToCap
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3317355424018133583, guid: e72fe431012d4b746b01a573f3fbb94e,
         type: 3}
       propertyPath: canConnectToRoom
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3317355424018133583, guid: e72fe431012d4b746b01a573f3fbb94e,
         type: 3}
@@ -562,7 +562,7 @@ PrefabInstance:
     - target: {fileID: 6301152234717359883, guid: 1740f21809d1ae64d8f24d58699c79fe,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.1999999
+      value: 1.19
       objectReference: {fileID: 0}
     - target: {fileID: 6301152234717359883, guid: 1740f21809d1ae64d8f24d58699c79fe,
         type: 3}
@@ -742,12 +742,12 @@ PrefabInstance:
     - target: {fileID: 3317355424018133583, guid: e72fe431012d4b746b01a573f3fbb94e,
         type: 3}
       propertyPath: canConnectToCap
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3317355424018133583, guid: e72fe431012d4b746b01a573f3fbb94e,
         type: 3}
       propertyPath: canConnectToRoom
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3317355424018133583, guid: e72fe431012d4b746b01a573f3fbb94e,
         type: 3}
@@ -943,7 +943,7 @@ PrefabInstance:
     - target: {fileID: 6301152234717359883, guid: 1740f21809d1ae64d8f24d58699c79fe,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.1999999
+      value: 1.19
       objectReference: {fileID: 0}
     - target: {fileID: 6301152234717359883, guid: 1740f21809d1ae64d8f24d58699c79fe,
         type: 3}
@@ -1348,12 +1348,12 @@ PrefabInstance:
     - target: {fileID: 3317355424018133583, guid: e72fe431012d4b746b01a573f3fbb94e,
         type: 3}
       propertyPath: canConnectToCap
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3317355424018133583, guid: e72fe431012d4b746b01a573f3fbb94e,
         type: 3}
       propertyPath: canConnectToRoom
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3317355424018133583, guid: e72fe431012d4b746b01a573f3fbb94e,
         type: 3}
