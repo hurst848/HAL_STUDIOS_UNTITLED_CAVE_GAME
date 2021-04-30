@@ -24,9 +24,9 @@ public class cameraController : MonoBehaviour
     public audioOutputController footstepEmmision;
     public audioOutputController mouthEmmision;
 
-    public List<AudioClip> painNoises; 
-      
+    public List<AudioClip> painNoises;
 
+    [HideInInspector] public bool won = false;
 
     void Start()
     {
@@ -41,6 +41,12 @@ public class cameraController : MonoBehaviour
 
     void Update()
     {
+        if (health.currentHP <= 0)
+        {
+            canMove = false;
+            StopAllCoroutines();
+            _rigidbody.freezeRotation = false;
+        }
         if (canMove)
         {
             if (canSprint)
@@ -114,6 +120,12 @@ public class cameraController : MonoBehaviour
             health.currentHP--;
             //Debug.Log("enemyHit");
 
+        }
+        if (collision.gameObject.tag == "Finish")
+        {
+            canMove = false;
+            StopAllCoroutines();
+            won = true;
         }
     }
 

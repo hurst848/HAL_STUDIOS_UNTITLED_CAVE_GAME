@@ -65,7 +65,7 @@ GameObject:
   - component: {fileID: 2536743878136703860}
   m_Layer: 0
   m_Name: plane
-  m_TagString: Untagged
+  m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,6 +156,7 @@ GameObject:
   - component: {fileID: 1739060822524786003}
   - component: {fileID: 8306380268985188450}
   - component: {fileID: 7295492962728690907}
+  - component: {fileID: 367709892623782397}
   m_Layer: 8
   m_Name: ending_room_backdrop
   m_TagString: Untagged
@@ -207,9 +208,26 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 22d0f9635784b6f419725fd4339aadcf, type: 3}
+--- !u!114 &367709892623782397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5829869975582956174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: ae218b834046ccf40826f1ee4969bff3, type: 2}
+  isGlobal: 0
+  blendDistance: 0
+  weight: 1
+  priority: 0
 --- !u!1 &5843525883486685718
 GameObject:
   m_ObjectHideFlags: 0

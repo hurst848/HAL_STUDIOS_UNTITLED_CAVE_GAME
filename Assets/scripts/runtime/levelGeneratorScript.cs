@@ -82,6 +82,8 @@ public class levelGeneratorScript : MonoBehaviour
         magnitude = gameHandler.gameMagnitude;
        // gameHandler.numMonsters = 2;
         GameObject.FindGameObjectWithTag("Player").transform.position = generatedlevel[0].transform.position;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>().useGravity = false;
+
     }
 
 
@@ -409,7 +411,7 @@ public class levelGeneratorScript : MonoBehaviour
 
         for (int i = 0; i < _room.GetComponent<roomData>().listOfNodes.Count; i++)
         {
-            if (isNodeCompatible(_a, _room.GetComponent<roomData>().listOfNodes[i].GetComponent<nodeData>()))
+            if (isNodeCompatible(_a, _room.GetComponent<roomData>().listOfNodes[i].GetComponent<nodeData>()) && isNodeCompatible(_room.GetComponent<roomData>().listOfNodes[i].GetComponent<nodeData>(), _a))
             {
                 validIndicies.Add(i);
             }
@@ -711,7 +713,17 @@ public class levelGeneratorScript : MonoBehaviour
             while (!roomGenerated)
             {
                 // pick a room from the compatible list
-                int indexOfRoom = Random.Range(0, validRooms.Count);
+                float roomType = Random.Range(0.0f, 100.0f);
+
+                int indexOfRoom = 0;
+                if (roomType >= 70)
+                {
+                    roomType = Random.Range(0, validRooms.Count);
+                }
+                else
+                {
+                    roomType = Random.Range(0, 9);
+                }
                 int roomToBeChecked = validRooms[indexOfRoom];
 
                 // make a list of all the nodes in that room that are compatible
@@ -794,8 +806,8 @@ public class levelGeneratorScript : MonoBehaviour
                                     (_a.gameObject.transform.position.y - _b.transform.position.y),
                                     (_a.gameObject.transform.position.z - _b.transform.position.z));
 
-                            }*/
-
+                            }
+*/
                             GameObject g12 = generatedlevel[generatedlevel.Count - 2].GetComponent<roomData>().listOfNodes[startIndex];
                             GameObject g13 = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[validNodes[chosenIndex]];
                             generatedlevel[generatedlevel.Count - 2].GetComponent<roomData>().listOfNodes.RemoveAt(startIndex);
@@ -899,11 +911,11 @@ public class levelGeneratorScript : MonoBehaviour
                     generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground");
                     generatedlevel[i].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground");
 
-                    
 
 
+                    Vector3 multi = new Vector3(generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size.x * 0.75f, 1.0f, generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size.y * 0.75f);
                     yield return new WaitForFixedUpdate();
-                    Collider[] roomsIntersecting = Physics.OverlapBox(generatedlevel[generatedlevel.Count - 1].transform.position, generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size, Quaternion.identity, mask);
+                    Collider[] roomsIntersecting = Physics.OverlapBox(generatedlevel[generatedlevel.Count - 1].transform.position, multi, Quaternion.identity, mask);
                     // check if the new room intersects with any nearby rooms
                     if (roomsIntersecting.Length == 0)
                     {
@@ -988,9 +1000,9 @@ public class levelGeneratorScript : MonoBehaviour
 
         // build nav mesh
         surface.BuildNavMesh();
-        GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>().freezeRotation = true;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>().useGravity = true;
         GameObject.FindGameObjectWithTag("Player").transform.position = generatedlevel[0].transform.position;
-        GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>().freezeRotation = false;
+        
 
         // generate the random pickups
         float test = 1.0f;

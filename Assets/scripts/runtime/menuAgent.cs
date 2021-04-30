@@ -9,12 +9,17 @@ public class menuAgent : MonoBehaviour
     public Canvas pauseMenu;
 
     public levelGeneratorScript levelGen;
+
+
+    public Canvas lossMenu;
+    public Canvas winMenu;
     bool isPaused = false;
 
     private void Start()
     {
         levelGen.generateLevel();
-
+        lossMenu.enabled = false;
+        winMenu.enabled = false;
         Resume();
     }
 
@@ -22,7 +27,7 @@ public class menuAgent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && health.currentHP > 0)
         {
             if (isPaused)
             {
@@ -32,6 +37,14 @@ public class menuAgent : MonoBehaviour
             {
                 Pause();
             }
+        }
+        if (health.currentHP <= 0)
+        {
+            lossMenu.enabled = true;
+        }
+        if (GameObject.FindGameObjectWithTag("Player").GetComponent<cameraController>().won)
+        {
+            winMenu.enabled = true;
         }
     }
 
