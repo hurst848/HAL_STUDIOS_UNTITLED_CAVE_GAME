@@ -10,7 +10,7 @@ public class soundMonsterController : MonoBehaviour
         Walking,
         Running,
         Searching,
-        Idle, 
+        Idle,
         Attacking,
     }
     [Range(0.1f, 3.0f)]
@@ -19,10 +19,12 @@ public class soundMonsterController : MonoBehaviour
     public float attackProximityThreshold = 0.5f;
     public LayerMask targetMask;
 
-    public float chaseThreshold = 1.0f;
+    public float chaseThreshold = 2.0f;
+    public float listenThreshold = 1.0f;
     public float walkSpeed = 5.0f;
     public float runSpeed = 10.0f;
 
+    [SerializeField] State currentState;
 
     [HideInInspector] public GameObject target;
     [HideInInspector] public float relVolumeOfTarget;
@@ -52,6 +54,7 @@ public class soundMonsterController : MonoBehaviour
 
     void FixedUpdate()
     {
+        
         if (!isAttacking)
         {
             if (Vector3.Distance(transform.position, playerLoc.position) <= attackProximityThreshold)

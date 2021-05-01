@@ -7,6 +7,9 @@ public class sound_Run_state : StateMachineBehaviour
 {
     private GameObject monster;
     private Vector3 destination;
+
+    private Vector3 prevPos;
+    private int breakState = 0;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -37,6 +40,7 @@ public class sound_Run_state : StateMachineBehaviour
 
         // set speed to run 
         monster.GetComponent<NavMeshAgent>().speed = monster.GetComponent<soundMonsterController>().runSpeed;
+        prevPos = monster.transform.position;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -44,7 +48,7 @@ public class sound_Run_state : StateMachineBehaviour
     {
         soundMonsterController.attacktarget possTarget = monster.GetComponent<soundMonsterController>().fetchSound();
 
-        if (possTarget.target != null)
+        if (possTarget.target != null && (possTarget.relativeSound >= monster.GetComponent<soundMonsterController>().chaseThreshold))
         {
             // if bellow the chase threshold, enter the locating state, else enter the running state
             animator.SetTrigger("locating");
@@ -53,6 +57,13 @@ public class sound_Run_state : StateMachineBehaviour
         if (Vector3.Distance(monster.transform.position,destination) <= 0.5f )
         {
             animator.SetTrigger("locating");
+        }
+        if (Vector3.Distance(prevPos, monster.transform.position) <= 0.1f){ breakState++; }
+        else { breakState = 0; }
+
+        if (breakState > 1000)
+        {
+            animator.SetTrigger("walk");
         }
     }
 

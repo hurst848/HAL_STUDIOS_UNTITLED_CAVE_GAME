@@ -88,7 +88,7 @@ public class levelGeneratorScript : MonoBehaviour
        // gameHandler.numMonsters = 2;
         GameObject.FindGameObjectWithTag("Player").transform.position = generatedlevel[0].transform.position;
         GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>().useGravity = false;
-        GameObject.FindGameObjectWithTag("Player").GetComponent<cameraController>().canMove = false;
+        //GameObject.FindGameObjectWithTag("Player").GetComponent<cameraController>().canMove = false;
         
     }
 
@@ -937,7 +937,7 @@ public class levelGeneratorScript : MonoBehaviour
                 if (numberOfFails >= 100)
                 {
                     Debug.Log("multiplier enabled");
-                    intersectionMultipier = 0.75f;
+                    intersectionMultipier = 0.9f;
                 }
 
             }
@@ -1021,7 +1021,7 @@ public class levelGeneratorScript : MonoBehaviour
                     Collider[] roomsIntersecting = Physics.OverlapBox(generatedlevel[generatedlevel.Count - 1].transform.position, multi, Quaternion.identity, mask);
                     if (roomsIntersecting.Length > 0)
                     {
-                        generatedlevel[generatedlevel.Count - 1].transform.localScale = new Vector3(1, 1, 0.01f);
+                        generatedlevel[generatedlevel.Count - 1].transform.localScale = new Vector3(1, 1, 0.001f);
 
                         GameObject g12 = generatedlevel[i].GetComponent<roomData>().listOfNodes[j];
                         GameObject g13 = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[0];

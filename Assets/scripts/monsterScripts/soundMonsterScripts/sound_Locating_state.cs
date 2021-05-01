@@ -59,6 +59,7 @@ public class sound_Locating_state : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         monster.GetComponent<soundMonsterController>().hearingRadius /= listeningRadiusMultiplier;
+        monster.GetComponent<NavMeshAgent>().enabled = true;
     }
 
 }

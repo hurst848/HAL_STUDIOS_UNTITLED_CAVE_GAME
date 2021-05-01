@@ -28,8 +28,11 @@ public class cameraController : MonoBehaviour
 
     [HideInInspector] public bool won = false;
 
+    private float halfSpeed;
+
     void Start()
     {
+        halfSpeed = walkSpeed / 2.0f;
         // assign varibles
         _rigidbody = GetComponent<Rigidbody>();
         _collider = GetComponent<CapsuleCollider>();
@@ -68,11 +71,13 @@ public class cameraController : MonoBehaviour
                 //set height
                 playerHeight = crouchHeight;
                 _collider.height = playerHeight;
+                walkSpeed = halfSpeed;
             }
             else
             {
                 playerHeight = standHeight;
                 _collider.height = playerHeight;
+                walkSpeed = halfSpeed * 2.0f;
             }
 
             if (canJump)
@@ -157,7 +162,7 @@ public class cameraController : MonoBehaviour
         yield return new WaitForSeconds(3.0f);
         while (health.currentHP != 0)
         {
-            if (_rigidbody.velocity.magnitude  > 0.1f && canJump)
+            if (_rigidbody.velocity.magnitude  > 0.1f && canJump && !isCrouching)
             {
                 if (isSprinting)
                 {

@@ -49,7 +49,7 @@ public class sound_Idle_State : StateMachineBehaviour
             {
                 animator.SetTrigger("run");
             }
-            else
+            else if (possTarget.relativeSound >= monster.GetComponent<soundMonsterController>().listenThreshold)
             {
                 animator.SetTrigger("locating");
             }
