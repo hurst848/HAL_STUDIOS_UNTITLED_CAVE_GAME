@@ -1232,6 +1232,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3511800259767491360, guid: 3ac0603623c63ba4a9d45c972b74e658,
+        type: 3}
+      propertyPath: runSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511800259767491360, guid: 3ac0603623c63ba4a9d45c972b74e658,
+        type: 3}
+      propertyPath: walkSpeed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3511800259767491361, guid: 3ac0603623c63ba4a9d45c972b74e658,
         type: 3}
       propertyPath: m_Height

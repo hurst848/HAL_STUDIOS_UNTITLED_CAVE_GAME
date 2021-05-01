@@ -817,7 +817,7 @@ public class levelGeneratorScript : MonoBehaviour
                         generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground");
                         if (generatedlevel.Count >= 3) { generatedlevel[generatedlevel.Count - 3].transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Ground"); }
 
-                        Physics.SyncTransforms();
+                        //Physics.SyncTransforms();
                         Vector3 multi = new Vector3(generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size.x  *intersectionMultipier, 1.0f, generatedlevel[generatedlevel.Count - 1].transform.GetChild(0).GetComponent<BoxCollider>().size.y * intersectionMultipier);
                         yield return new WaitForFixedUpdate();
                         Collider[] roomsIntersecting = Physics.OverlapBox(generatedlevel[generatedlevel.Count - 1].transform.position, multi, Quaternion.identity, mask);
