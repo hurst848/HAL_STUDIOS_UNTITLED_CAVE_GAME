@@ -14,7 +14,7 @@ public class cameraController : MonoBehaviour
     private CapsuleCollider _collider;
 
     // private movement varibles
-    private bool canMove = true;
+    [HideInInspector] public bool canMove = true;
     private bool canJump = true;
     private bool canSprint = true;
     private bool canCrouch = true;
@@ -126,6 +126,7 @@ public class cameraController : MonoBehaviour
             canMove = false;
             StopAllCoroutines();
             won = true;
+            _rigidbody.velocity = Vector3.zero;
         }
     }
 

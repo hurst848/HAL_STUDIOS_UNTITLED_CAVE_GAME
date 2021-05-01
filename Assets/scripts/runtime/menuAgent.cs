@@ -13,6 +13,8 @@ public class menuAgent : MonoBehaviour
 
     public Canvas lossMenu;
     public Canvas winMenu;
+    public Canvas hud;
+    public Canvas loadingScreen;
     bool isPaused = false;
 
     private void Start()
@@ -47,6 +49,18 @@ public class menuAgent : MonoBehaviour
             winMenu.enabled = true;
         }
     }
+
+    public void loading()
+    {
+        hud.enabled = false;
+        loadingScreen.enabled = true;
+    }
+    public void doneLoading()
+    {
+        hud.enabled = true;
+        loadingScreen.enabled = false;
+    }
+
 
     void Pause()
     {

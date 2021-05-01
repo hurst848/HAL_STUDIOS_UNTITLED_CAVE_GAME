@@ -16,7 +16,7 @@ public class sound_Attack_state : StateMachineBehaviour
         animator.ResetTrigger("attack");
         monster = animator.gameObject;
         monster.GetComponent<NavMeshAgent>().enabled = false;
-        
+        checkIfAttackIsSuccsesful();
        
     }
 
@@ -29,7 +29,7 @@ public class sound_Attack_state : StateMachineBehaviour
             {
                 // deduct health
                 health.currentHP--;
-                
+                Debug.Log("succsesful attack");
               
             }
             animator.SetTrigger("locating");

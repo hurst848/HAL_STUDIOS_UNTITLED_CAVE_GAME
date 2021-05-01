@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6846039469459611219}
   - component: {fileID: 8634856223970404121}
   - component: {fileID: 5111745957233460109}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6301152234717359883}
   - component: {fileID: 5948291182824714736}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: beams
   m_TagString: Untagged
   m_Icon: {fileID: 0}

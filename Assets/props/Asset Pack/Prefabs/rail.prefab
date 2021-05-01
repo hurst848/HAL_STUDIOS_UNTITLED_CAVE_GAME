@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4605137155236744427}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: rail
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 4006110083352886707}
   - component: {fileID: 2256198655209489657}
   - component: {fileID: 3344514913629036653}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
