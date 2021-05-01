@@ -7,6 +7,9 @@ public class sound_Walk_state : StateMachineBehaviour
 {
     private GameObject monster;
 
+    private Vector3 prevPos;
+    private int breakState = 0;
+
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -57,6 +60,16 @@ public class sound_Walk_state : StateMachineBehaviour
             }
             
         }
+
+        if (Vector3.Distance(prevPos, monster.transform.position) <= 0.5f) { breakState++; }
+        else { breakState = 0; }
+
+        if (breakState > 1000)
+        {
+            animator.SetTrigger("idle");
+        }
+
+
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

@@ -35,7 +35,8 @@ public class levelGeneratorScript : MonoBehaviour
 
     private bool levelGenerated = false;
 
-    private List<GameObject> generatedlevel = new List<GameObject>();
+    [HideInInspector]
+    public List<GameObject> generatedlevel = new List<GameObject>();
     [HideInInspector]
     public bool generateLevell = false;
 
@@ -104,11 +105,13 @@ public class levelGeneratorScript : MonoBehaviour
 
     void spawnInitialRooms()
     {
-        for (int i = 0; i < 3; i++)
+        int numOfInitRooms = 3;
+        for (int i = 0; i < numOfInitRooms; i++)
         {
             nodeData _a = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[0].GetComponent<nodeData>();
 
-            generatedlevel.Add(Instantiate(rooms[3], hostObject.transform));
+            if (i == numOfInitRooms - 1) { generatedlevel.Add(Instantiate(rooms[rooms.Count -1], hostObject.transform)); }
+            else { generatedlevel.Add(Instantiate(rooms[3], hostObject.transform)); }
 
             GameObject _b = generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes[1];
 
@@ -1039,6 +1042,7 @@ public class levelGeneratorScript : MonoBehaviour
                         Destroy(g12);
                         Destroy(g13);
                     }
+                    j--;
                 }
             }
         }

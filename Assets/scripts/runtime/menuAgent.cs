@@ -15,8 +15,11 @@ public class menuAgent : MonoBehaviour
     public Canvas winMenu;
     public Canvas hud;
     public Canvas loadingScreen;
-    bool isPaused = false;
 
+    public Slider progressBar;
+
+    bool isPaused = false;
+    bool loadingLevel = false;
     private void Start()
     {
         levelGen.generateLevel();
@@ -29,6 +32,14 @@ public class menuAgent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (loadingLevel)
+        {
+            float currentProgress =
+                GameObject.FindGameObjectWithTag("lvlgen").GetComponent<levelGeneratorScript>().generatedlevel.Count /
+                (float)GameObject.FindGameObjectWithTag("lvlgen").GetComponent<levelGeneratorScript>().magnitude;
+            progressBar.value = currentProgress;
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape) && health.currentHP > 0)
         {
             if (isPaused)
@@ -52,6 +63,7 @@ public class menuAgent : MonoBehaviour
 
     public void loading()
     {
+        loadingLevel = true;
         hud.enabled = false;
         loadingScreen.enabled = true;
     }
@@ -64,6 +76,7 @@ public class menuAgent : MonoBehaviour
 
     void Pause()
     {
+        loadingLevel = true;
         pauseMenu.enabled = true;
         Time.timeScale = 0f;
         isPaused = true;

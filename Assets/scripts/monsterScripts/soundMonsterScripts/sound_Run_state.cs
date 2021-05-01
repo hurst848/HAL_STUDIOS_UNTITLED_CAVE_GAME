@@ -58,7 +58,7 @@ public class sound_Run_state : StateMachineBehaviour
         {
             animator.SetTrigger("locating");
         }
-        if (Vector3.Distance(prevPos, monster.transform.position) <= 0.1f){ breakState++; }
+        if (Vector3.Distance(prevPos, monster.transform.position) <= 0.5f){ breakState++; }
         else { breakState = 0; }
 
         if (breakState > 1000)
