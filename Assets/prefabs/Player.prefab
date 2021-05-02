@@ -203,11 +203,13 @@ MonoBehaviour:
   playerHeight: 1.8
   crouchHeight: 1
   standHeight: 1.8
+  canMove: 1
   footstepEmmision: {fileID: 7876886659414534182}
   mouthEmmision: {fileID: 5901333062539358254}
   painNoises:
   - {fileID: 8300000, guid: b1f3a6d5c2fd4f94fba3d3c7c485305d, type: 3}
   - {fileID: 8300000, guid: c55cedc3e7dfc064baf57c19ae47a45d, type: 3}
+  won: 0
 --- !u!54 &3511800259767491365
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -406,7 +408,7 @@ PrefabInstance:
     - target: {fileID: 4125776893287018642, guid: 813d3ae951847774eadc07a7d4943177,
         type: 3}
       propertyPath: m_Volume
-      value: 0.5
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4125776893287018642, guid: 813d3ae951847774eadc07a7d4943177,
         type: 3}

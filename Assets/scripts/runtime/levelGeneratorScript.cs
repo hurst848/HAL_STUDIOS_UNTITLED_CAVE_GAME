@@ -82,6 +82,7 @@ public class levelGeneratorScript : MonoBehaviour
     {
         //mask = LayerMask.GetMask("roomGenDetection");
         hostObject = new GameObject();
+        generatedlevel = new List<GameObject>();
         generatedlevel.Add(Instantiate(rooms[0], hostObject.transform));
         spawnInitialRooms();
         seed = gameHandler.gameSeed;
@@ -89,6 +90,7 @@ public class levelGeneratorScript : MonoBehaviour
        // gameHandler.numMonsters = 2;
         GameObject.FindGameObjectWithTag("Player").transform.position = generatedlevel[0].transform.position;
         GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>().useGravity = false;
+        StartCoroutine(newRoomGeneration());
         //GameObject.FindGameObjectWithTag("Player").GetComponent<cameraController>().canMove = false;
         
     }
@@ -97,10 +99,10 @@ public class levelGeneratorScript : MonoBehaviour
     void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.Q))
+       /* if (Input.GetKeyDown(KeyCode.Q))
         {
             StartCoroutine(newRoomGeneration());
-        }
+        }*/
     }
 
     void spawnInitialRooms()
@@ -169,16 +171,7 @@ public class levelGeneratorScript : MonoBehaviour
 
     public void generateLevel()
     {
-        // init seed
-        int trueSeed = 0;
-        for (int i = 0; i < seed.Length; i++)
-        {
-            trueSeed += seed[i];
-        }
-        Random.InitState(trueSeed);
-
-
-        StartCoroutine(newRoomGeneration());
+       StartCoroutine(newRoomGeneration());
 
         Debug.Log("main level generated");
         Debug.Log("LEVEL GENERATED Y'ALL");
@@ -741,6 +734,7 @@ public class levelGeneratorScript : MonoBehaviour
             // choose which node on the newest room to generate from, switch up the room if nodes are avalible
             if (generatedlevel[generatedlevel.Count - 1].GetComponent<roomData>().listOfNodes.Count <= 0)
             {
+                Debug.Log("CHECKsCRIPT");
                 // switch the newest room with one that has availible rooms
                 GameObject tmpA = generatedlevel[generatedlevel.Count - 1];
                 int newRoom = findNewRoom();

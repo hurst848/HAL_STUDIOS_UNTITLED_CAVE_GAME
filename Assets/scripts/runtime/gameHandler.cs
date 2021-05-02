@@ -45,6 +45,10 @@ public class gameHandler : MonoBehaviour
         for (int i =0; i< resolutions.Length; i++)
         {
             string option = resolutions[i].width + " X " + resolutions[i].height;
+           /* if (!option.Contains(option))
+            {
+                options.Add(option);
+            }*/
             options.Add(option);
 
             if (resolutions[i].width == Screen.currentResolution.width &&

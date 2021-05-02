@@ -22,7 +22,7 @@ public class menuAgent : MonoBehaviour
     bool loadingLevel = false;
     private void Start()
     {
-        levelGen.generateLevel();
+        
         lossMenu.enabled = false;
         winMenu.enabled = false;
         Resume();
@@ -54,10 +54,14 @@ public class menuAgent : MonoBehaviour
         if (health.currentHP <= 0)
         {
             lossMenu.enabled = true;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
         }
         if (GameObject.FindGameObjectWithTag("Player").GetComponent<cameraController>().won)
         {
             winMenu.enabled = true;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
         }
     }
 
@@ -80,6 +84,8 @@ public class menuAgent : MonoBehaviour
         pauseMenu.enabled = true;
         Time.timeScale = 0f;
         isPaused = true;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     public void Resume()
@@ -87,6 +93,8 @@ public class menuAgent : MonoBehaviour
         pauseMenu.enabled = false;
         Time.timeScale = 1f;
         isPaused = false;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void switchToMainMenu()
